@@ -1,0 +1,41 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center" id="divHeader" class="upper">
+  <h2>
+    Welcome to {{ title }}!
+  </h2>
+  <button id="btnLogin" routerLink = "/testRoute">Login</button>
+</div>
+
+<div id="divItemDetails" class="lower">
+    <!-- <pre>Sort by = {{propertyName}}; reverse = {{reverse}}</pre> -->
+    <!-- <hr/>
+    <button ng-click="propertyName = null; reverse = false">Set to unsorted</button>
+    <hr/> -->
+<table border=1>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Price</th>
+        <th>Rating</th>
+        <th>Quantity</th>
+        <th>Add to cart</th>
+      </tr>
+      </thead>
+    <tr *ngFor = "let item of itemDetails">
+         <td> {{ item.name }} </td> 
+         <td> <img src="{{item.imageLocation}}" height="120" width="180"> </td>
+         <td> {{item.price}} </td>
+         <td> {{item.rating}} </td>
+         <td> </td>
+         <td> <button routerLink = "/testRoute">Add</button> </td>
+    </tr>
+</table>
+<!-- <mat-table [dataSource] = "item">
+  <ng-container matColumnDef="ItemName">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let item">{{item.ItemName}}</mat-cell>
+  </ng-container>
+</mat-table> -->
+</div>
+<router-outlet></router-outlet>
