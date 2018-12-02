@@ -4,15 +4,20 @@ import { AppComponent } from './app.component';
 import { AuthenicateUserComponent } from './authenicate-user/authenicate-user.component';
 import { UserAuthenticatedComponent } from './user-authenticated/user-authenticated.component';
 import { DefaultPageComponent } from './default-page/default-page.component';
+import { AuthService } from './core/auth.service';
+import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/itemDetails', pathMatch: 'full'},
-  { path: 'itemDetails', component: DefaultPageComponent},
-  { path: 'testRoute', component: UserAuthenticatedComponent}
+  { path: '', redirectTo: '/defaultPage', pathMatch: 'full'},
+  { path: 'defaultPage', component: DefaultPageComponent},
+  { path: 'authenticate', component: AuthenicateUserComponent},
+  { path: 'authenticatedUser', component: UserAuthenticatedComponent},
+  { path: 'signup', component: SignupComponent}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthService]
 })
 export class AppRoutingModule { }

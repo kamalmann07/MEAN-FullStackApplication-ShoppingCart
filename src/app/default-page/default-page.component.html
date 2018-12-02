@@ -3,7 +3,7 @@
   <h2>
     Welcome to {{ title }}!
   </h2>
-  <button id="btnLogin" routerLink = "/testRoute">Login</button>
+  <button id="btnLogin" routerLink = "/authenticate">Login</button>
 </div>
 
 <div id="divItemDetails" class="lower">
@@ -18,8 +18,6 @@
         <th>Image</th>
         <th>Price</th>
         <th>Rating</th>
-        <th>Quantity</th>
-        <th>Add to cart</th>
       </tr>
       </thead>
     <tr *ngFor = "let item of itemDetails">
@@ -27,8 +25,6 @@
          <td> <img src="{{item.imageLocation}}" height="120" width="180"> </td>
          <td> {{item.price}} </td>
          <td> {{item.rating}} </td>
-         <td> </td>
-         <td> <button routerLink = "/testRoute">Add</button> </td>
     </tr>
 </table>
 <!-- <mat-table [dataSource] = "item">
