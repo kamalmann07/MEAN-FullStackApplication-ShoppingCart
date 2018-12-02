@@ -15,33 +15,45 @@ export class AuthService {
   constructor(public afAuth: AngularFireAuth, private router: Router) { }
 
   doRegister(registerForm) {
+    // Create User Sign up
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(registerForm.email, registerForm.password)
       .then(res => {
-        resolve(res);
+        // For Sending Verification Email
+        firebase.auth().signInWithEmailAndPassword(registerForm.email, registerForm.password)
+        .then((user) => {
+          // this.authState = user
+          const userName = firebase.auth().currentUser;
+          userName.sendEmailVerification();
+          console.log('Verification Email Sent to user ' + userName.uid);
+        })
+        .catch(error => {
+          console.log('Error WHile Sending Verification Email. Please try again.');
+        });
       }, err => reject(err));
     });
-    const user = firebase.auth().currentUser;
-
-    user.sendEmailVerification().then(function() {
-      this.emailsent = 'verification email has now been sent to ' + 'emailaddress';
-      console.log('sending email to ' + this.user);
-}, function(error) {
-  console.log('Error while sending email');
-});
   }
 
   signInRegular(loginForm) {
     firebase.auth().signInWithEmailAndPassword(loginForm.email, loginForm.password)
     .then((user) => {
       // this.authState = user
-      console.log('User Logged in Successfully');
+      const userName = firebase.auth().currentUser;
+      if (userName.emailVerified) {
       this.router.navigate(['/authenticatedUser']);
+      console.log('User Logged in Successfully');
+      }
+      console.log('Please verify your email.');
     })
     .catch(error => {
       console.log('Inaalid Credientials. Please try again.');
       // throw error;
     });
+ }
+
+ getCurrentUser(): any {
+  const userName = firebase.auth().currentUser;
+  return userName.uid;
  }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AuthService} from '../core/auth.service';
 
 @Component({
   selector: 'app-user-authenticated',
@@ -7,11 +8,11 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
   styleUrls: ['./user-authenticated.component.css']
 })
 export class UserAuthenticatedComponent implements OnInit {
-  user: String;
+  user: any;
   title = 'Authenticated User';
   itemDetails: any;
 
-  constructor(db: AngularFireDatabase) {
+  constructor(db: AngularFireDatabase, public authService: AuthService) {
     const x = db.list('itemDetails');
     x.valueChanges().subscribe(
       items => {
@@ -19,6 +20,10 @@ export class UserAuthenticatedComponent implements OnInit {
         console.log(this.itemDetails);
       }
     );
+
+    this.user = authService.getCurrentUser();
+    console.log('test');
+    console.log(this.user);
    }
 
   ngOnInit() {
