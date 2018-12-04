@@ -6,13 +6,17 @@ import { UserAuthenticatedComponent } from './user-authenticated/user-authentica
 import { DefaultPageComponent } from './default-page/default-page.component';
 import { AuthService } from './core/auth.service';
 import { SignupComponent } from './signup/signup.component';
+import { AdminComponent } from './admin/admin.component';
+import { ItemDetailPageComponent } from './item-detail-page/item-detail-page.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/defaultPage', pathMatch: 'full'},
   { path: 'defaultPage', component: DefaultPageComponent},
   { path: 'authenticate', component: AuthenicateUserComponent},
   { path: 'authenticatedUser', component: UserAuthenticatedComponent},
-  { path: 'signup', component: SignupComponent}
+  { path: 'signup', component: SignupComponent},
+  { path: 'admin', component: AdminComponent},
+  { path: 'itemDetail', component: ItemDetailPageComponent}
 ];
 
 @NgModule({

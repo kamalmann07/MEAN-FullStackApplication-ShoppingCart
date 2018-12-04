@@ -10,9 +10,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-// import { HttpClient } from 'selenium-webdriver/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatTableModule, MatSortModule} from '@angular/material';
+import {MatTableModule, MatSortModule, MatToolbarModule, MatInputModule} from '@angular/material';
 import { AuthenicateUserComponent } from './authenicate-user/authenicate-user.component';
 import { UserAuthenticatedComponent } from './user-authenticated/user-authenticated.component';
 import { DefaultPageComponent } from './default-page/default-page.component';
@@ -20,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserLoginComponent } from './users/user-login/user-login.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
 import { SignupComponent } from './signup/signup.component';
+import { AdminComponent } from './admin/admin.component';
+import { ItemDetailPageComponent } from './item-detail-page/item-detail-page.component';
 
 @Injectable()
 @NgModule({
@@ -30,7 +31,9 @@ import { SignupComponent } from './signup/signup.component';
     DefaultPageComponent,
     UserLoginComponent,
     UserProfileComponent,
-    SignupComponent
+    SignupComponent,
+    AdminComponent,
+    ItemDetailPageComponent
   ],
   imports: [
     BrowserModule,

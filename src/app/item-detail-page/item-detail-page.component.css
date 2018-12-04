@@ -1,0 +1,70 @@
+table {
+    table-layout: fixed;
+    width: 58%;
+    border-collapse: collapse;
+    border: 2.5px solid #0502055d;
+  }
+  
+  thead th:nth-child(1) {
+    width: 15%;
+  }
+  
+  thead th:nth-child(2) {
+    width: 25%;
+    padding: 16px;
+  }
+  
+  thead th:nth-child(3) {
+    width: 15%;
+  }
+  
+  thead th:nth-child(4) {
+    width: 10%;
+  }
+  
+  thead th:nth-child(5) {
+    width: 20%;
+  }
+  
+  thead th:nth-child(6) {
+    width: 15%;
+  }
+  
+  th, td {
+    padding: 5px;
+    border: 1px solid hsla(300, 20%, 1%, 0.459);
+  }
+  
+  #btnLogin {
+    background-color: rgb(12, 152, 245); /* Green */
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+  
+  #btnLogin:hover {
+    background-color: #4CAF50;; /* Green */
+    color: white;
+  }
+
+
+  .upper, .lower {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+  
+  .upper {
+    top: 0;
+    height: 15%;
+  }
+  
+  .lower {
+    bottom: 0;
+    height: 85%;   
+    /* overflow:scroll; */
+  }

@@ -19,7 +19,7 @@ export class AuthenicateUserComponent implements OnInit {
 
    loginWithEmail(loginForm) {
     this.authService.signInRegular(loginForm);
-    this.errorMessage = 'Inavlid Credientials. Please try again';
+    console.log('Test string is ' + this.authService.getVerMailStatus());
   }
 
   ngOnInit() {

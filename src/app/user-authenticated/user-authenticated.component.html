@@ -1,9 +1,9 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center" id="divHeader" class="upper">
     <h2>
-      Welcome to {{ title }}!
+      Welcome back User {{ title }} !
     </h2>
-    <button id="btnLogin" routerLink = "/authenticate">Login</button>
+    <button id="btnLogin" routerLink = "/defaultPage">Logout</button>
   </div>
   
   <div id="divItemDetails" class="lower">
@@ -23,8 +23,8 @@
            <td> <img src="{{item.imageLocation}}" height="120" width="180"> </td>
            <td> {{item.price}} </td>
            <td> {{item.rating}} </td>
-           <td> </td>
-           <td> <button routerLink = "/authenticate">Add</button> </td>
+           <td> <input type="number"> </td>
+           <td> <button class="btnToCart" routerLink = "/authenticate">Add</button> </td>
       </tr>
   </table>
   </div>

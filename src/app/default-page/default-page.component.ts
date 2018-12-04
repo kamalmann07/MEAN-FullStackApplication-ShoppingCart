@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDataService } from './product-data.service';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { DataSource } from '@angular/cdk/table';
+import { ItemDetails } from '../itemDetails.model';
 
 
 @Component({
@@ -12,6 +14,8 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 export class DefaultPageComponent implements OnInit {
   title = 'Default Page';
   itemDetails: any;
+  columnsToDisplay = ['userName', 'age'];
+  selectedItem: ItemDetails = new ItemDetails();
 
   constructor(db: AngularFireDatabase) {
     const x = db.list('itemDetails');
@@ -24,6 +28,11 @@ export class DefaultPageComponent implements OnInit {
    }
 
   ngOnInit() {
+  }
+
+  getItemDetail(item: ItemDetails) {
+    console.log(item);
+    this.selectedItem = item;
   }
 
 }

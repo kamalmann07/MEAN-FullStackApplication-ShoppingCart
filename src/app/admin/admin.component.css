@@ -32,7 +32,7 @@ table {
   table-layout: fixed;
   width: 58%;
   border-collapse: collapse;
-  border: 2.5px solid #0502055d;
+  border: 3px solid purple;
 }
 
 thead th:nth-child(1) {
@@ -62,21 +62,5 @@ thead th:nth-child(6) {
 
 th, td {
   padding: 5px;
-  border: 1px solid hsla(300, 20%, 1%, 0.459);
-}
-
-#btnLogin {
-  background-color: rgb(12, 152, 245); /* Green */
-  border: none;
-  color: white;
-  padding: 10px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-
-#btnLogin:hover {
-  background-color: #4CAF50;; /* Green */
-  color: white;
+  border: 2px solid purple;
 }

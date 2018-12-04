@@ -11,6 +11,7 @@ import * as firebase from 'firebase/app';
 export class AuthService {
 
   authState: any = null;
+  verMail: String;
 
   constructor(public afAuth: AngularFireAuth, private router: Router) { }
 
@@ -41,9 +42,10 @@ export class AuthService {
       const userName = firebase.auth().currentUser;
       if (userName.emailVerified) {
       this.router.navigate(['/authenticatedUser']);
-      console.log('User Logged in Successfully');
-      }
+      } else {
       console.log('Please verify your email.');
+      this.verMail = 'Please verify your email to login.';
+      }
     })
     .catch(error => {
       console.log('Inaalid Credientials. Please try again.');
@@ -54,6 +56,10 @@ export class AuthService {
  getCurrentUser(): any {
   const userName = firebase.auth().currentUser;
   return userName.uid;
+ }
+
+ getVerMailStatus(): any {
+    return this.verMail;
  }
 
 }

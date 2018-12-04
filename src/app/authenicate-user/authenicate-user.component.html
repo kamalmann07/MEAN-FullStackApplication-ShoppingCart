@@ -1,6 +1,10 @@
+<div>
+  <h2>Please sign in</h2>
+</div>
+<div id="loginDiv">
 <form [formGroup]="loginForm">
   <div class="form-group">
-    <label>Email address</label>
+    <label>Username</label>
     <input type="email" formControlName="email" class="form-control" required>
   </div>
   <div class="form-group">
@@ -9,7 +13,13 @@
     <label class="error">{{errorMessage}}</label>
     <label class="success">{{successMessage}}</label>
   </div>
-  <button type="submit" class="btn btn-default" (click)="loginWithEmail(loginForm.value)">Login</button>
-  <button type="submit" routerLink = "/defaultPage">Cancel</button>
-  <button type="submit" routerLink = "/signup">Signup</button>
+  <div>
+  <button type="submit" class="btn-default" (click)="loginWithEmail(loginForm.value)">Login</button>
+  <button type="submit" class="btn-default" routerLink = "/defaultPage">Cancel</button>
+</div>
+<div>
+  <label>Not registerd?...</label>
+  <button type="submit" class="btn-default" routerLink = "/signup">Signup</button>
+</div>
 </form>
+</div>

@@ -9,12 +9,10 @@ import { AuthService} from '../core/auth.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  successMessage: String = 'Test';
-  errorMessage: String = 'Test';
+  successMessage: String;
+  errorMessage: String;
 
   registerForm: FormGroup;
-  // email: FormControlName;
-  // password: FormControlName;
 
   constructor(public authService: AuthService) {
     this.registerForm = new FormGroup({ email: new FormControl(), password: new FormControl() });
@@ -25,7 +23,7 @@ export class SignupComponent implements OnInit {
     .then(res => {
       console.log(res);
       this.errorMessage = '';
-      this.successMessage = 'Your account has been created';
+      this.successMessage = 'Your account has been created and verification email has been sent.';
     }, err => {
       console.log(err);
       this.errorMessage = err.message;

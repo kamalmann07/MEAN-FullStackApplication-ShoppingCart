@@ -9,7 +9,7 @@ import { AuthService} from '../core/auth.service';
 })
 export class UserAuthenticatedComponent implements OnInit {
   user: any;
-  title = 'Authenticated User';
+  title: String;
   itemDetails: any;
 
   constructor(db: AngularFireDatabase, public authService: AuthService) {
@@ -22,8 +22,7 @@ export class UserAuthenticatedComponent implements OnInit {
     );
 
     this.user = authService.getCurrentUser();
-    console.log('test');
-    console.log(this.user);
+    this.title = this.user;
    }
 
   ngOnInit() {

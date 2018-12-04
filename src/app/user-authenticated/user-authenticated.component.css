@@ -32,7 +32,7 @@ table {
   table-layout: fixed;
   width: 58%;
   border-collapse: collapse;
-  border: 3px solid purple;
+  border: 2.5px solid #0502055d;
 }
 
 thead th:nth-child(1) {
@@ -54,6 +54,7 @@ thead th:nth-child(4) {
 
 thead th:nth-child(5) {
   width: 20%;
+  padding: 30px;
 }
 
 thead th:nth-child(6) {
@@ -62,5 +63,40 @@ thead th:nth-child(6) {
 
 th, td {
   padding: 5px;
-  border: 2px solid purple;
+  border: 1px solid hsla(300, 20%, 1%, 0.459);
+}
+
+#btnLogin {
+  background-color: rgb(12, 152, 245); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#btnLogin:hover {
+  background-color: #4CAF50;; /* Green */
+  color: white;
+}
+
+.btnToCart:hover {
+  background-color: #e7e7e7;; /* Green */
+  color: white;
+}
+
+.btnToCart{
+  background-color: #f44336;; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
 }
