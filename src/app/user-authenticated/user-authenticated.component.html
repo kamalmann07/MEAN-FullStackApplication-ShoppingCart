@@ -18,14 +18,29 @@
           <th>Action</th>
         </tr>
         </thead>
-      <tr *ngFor = "let item of itemDetails">
+      <tr *ngFor = "let item of itemDetails" [class.Selected]="item === selectedProduct" 
+      (click)="getItemDetail(item)" >
            <td> {{ item.name }} </td> 
            <td> <img src="{{item.imageLocation}}" height="120" width="180"> </td>
            <td> {{item.price}} </td>
            <td> {{item.rating}} </td>
            <td> <input type="number"> </td>
-           <td> <button class="btnToCart" routerLink = "/authenticate">Add</button> </td>
+           <td> <button class="btnToCart">Add</button> </td>
       </tr>
   </table>
+  <!-- <div align="right"> -->
+  <table id="shopingCart"  align="right"  style="vertical-align: top;">
+    <thead>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </thead>
+    <tr *ngFor = "let selected of rows">
+      <td>{{selected.name}}</td>
+      <td>{{selected.price}}</td>
+      <td>{{selected.qty}}</td>
+    </tr>
+  </table>
+<!-- </div> -->
   </div>
   <router-outlet></router-outlet>

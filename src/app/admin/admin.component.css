@@ -5,16 +5,16 @@
   }
   
   .upper {
+    border: 2px solid hsla(240, 89%, 4%, 0.199);
     top: 0;
     height: 15%;
   }
   
   .lower {
     bottom: 0;
-    height: 85%;   
+    height: 83%;   
     /* overflow:scroll; */
   }
-
 
   #btnLogin {
     margin-top: 10px;
@@ -22,6 +22,38 @@
     position:absolute;
     top:0;
     right:0;
+}
+
+#btnLogin {
+  background-color: rgb(12, 152, 245); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#btnLogin:hover {
+  background-color: #4CAF50;; /* Green */
+  color: white;
+}
+
+#btnAddItem {
+  background-color: rgb(12, 152, 245); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#btnAddItem:hover {
+  background-color: #4CAF50;; /* Green */
+  color: white;
 }
 
 /* Table Look and Feel */
@@ -32,7 +64,7 @@ table {
   table-layout: fixed;
   width: 58%;
   border-collapse: collapse;
-  border: 3px solid purple;
+  border: 3px solid blue;
 }
 
 thead th:nth-child(1) {

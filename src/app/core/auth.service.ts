@@ -12,8 +12,9 @@ export class AuthService {
 
   authState: any = null;
   verMail: String;
+  admins: any;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router) { }
+  constructor(public afAuth: AngularFireAuth, private router: Router, private db: AngularFireDatabase) { }
 
   doRegister(registerForm) {
     // Create User Sign up
@@ -38,7 +39,6 @@ export class AuthService {
   signInRegular(loginForm) {
     firebase.auth().signInWithEmailAndPassword(loginForm.email, loginForm.password)
     .then((user) => {
-      // this.authState = user
       const userName = firebase.auth().currentUser;
       if (userName.emailVerified) {
       this.router.navigate(['/authenticatedUser']);
@@ -48,9 +48,35 @@ export class AuthService {
       }
     })
     .catch(error => {
-      console.log('Inaalid Credientials. Please try again.');
-      // throw error;
+      console.log('Invalid Credientials. Please try again.');
+      throw error;
     });
+ }
+
+    signInAsAdmin(loginForm) {
+
+  //  Login Information
+  firebase.auth().signInWithEmailAndPassword(loginForm.email, loginForm.password)
+  .then((user) => {
+    const userName = firebase.auth().currentUser.uid;
+
+//  Get Admin Rights User List
+    const x = this.db.list('Admin');
+   x.valueChanges().subscribe(
+     admin => {
+       this.admins = JSON.stringify(admin);
+       console.log('test user is ' + userName);
+       // Put Logic Here For Validation
+     }
+   );
+
+
+  })
+  .catch(error => {
+    console.log('Invalid Credientials. Please try again.');
+    // throw error;
+  });
+
  }
 
  getCurrentUser(): any {

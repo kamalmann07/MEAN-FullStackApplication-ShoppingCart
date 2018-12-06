@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductDataService } from './product-data.service';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { DataSource } from '@angular/cdk/table';
 import { ItemDetails } from '../itemDetails.model';
+import { ProductDataService } from '../product-data.service';
 
 
 @Component({
@@ -14,15 +14,14 @@ import { ItemDetails } from '../itemDetails.model';
 export class DefaultPageComponent implements OnInit {
   title = 'Default Page';
   itemDetails: any;
-  columnsToDisplay = ['userName', 'age'];
-  selectedItem: ItemDetails = new ItemDetails();
+  test: any;
+  // selectedItem: ItemDetails = new ItemDetails();
 
-  constructor(db: AngularFireDatabase) {
+  constructor(db: AngularFireDatabase, pds: ProductDataService) {
     const x = db.list('itemDetails');
     x.valueChanges().subscribe(
       items => {
-        this.itemDetails = items;
-        console.log(this.itemDetails);
+        this.itemDetails = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
       }
     );
    }
@@ -30,9 +29,9 @@ export class DefaultPageComponent implements OnInit {
   ngOnInit() {
   }
 
-  getItemDetail(item: ItemDetails) {
-    console.log(item);
-    this.selectedItem = item;
-  }
+  // getItemDetail(item: ItemDetails) {
+  //   console.log(item);
+  //   this.selectedItem = item;
+  // }
 
 }

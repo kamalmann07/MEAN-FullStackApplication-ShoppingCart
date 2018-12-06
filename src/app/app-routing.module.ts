@@ -7,7 +7,7 @@ import { DefaultPageComponent } from './default-page/default-page.component';
 import { AuthService } from './core/auth.service';
 import { SignupComponent } from './signup/signup.component';
 import { AdminComponent } from './admin/admin.component';
-import { ItemDetailPageComponent } from './item-detail-page/item-detail-page.component'
+import { ItemDetailPageComponent } from './item-detail-page/item-detail-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/defaultPage', pathMatch: 'full'},

@@ -1,15 +1,16 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center" id="divHeader" class="upper">
   <h2>
-    Welcome to {{ title }}!
+    Welcome Admin {{ title }}!
   </h2>
-  <button id="btnLogin" routerLink = "/authenticate">Login</button>
+  <button id="btnLogin" routerLink = "/defaultPage">Logout</button>
 </div>
 
 <div id="divItemDetails" class="lower">
+  <div>
   <form [formGroup]="addItems">
     <div class="form-group">
-      <label>Item Name</label>
+      <label>Name</label>
       <input type="text" formControlName="itemname" class="form-control" required>
     </div>
     <div class="form-group">
@@ -21,10 +22,11 @@
       <input type="number" class="form-control" formControlName="price" required>
     </div>
     <div class="form-group">
-      <label>Inventory</label>
+      <label>Invtry</label>
       <input type="number" class="form-control" formControlName="Inventory" required>
     </div>
-    <button type="submit" class="btn btn-default">Add Item</button>
+    <button type="submit" class="btn btn-default" id="btnAddItem">Add Item</button>
   </form>
+</div>
 </div>
 <router-outlet></router-outlet>

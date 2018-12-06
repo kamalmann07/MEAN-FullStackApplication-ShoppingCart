@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AuthService} from '../core/auth.service';
+import { ItemDetails } from '../itemDetails.model';
 
 @Component({
   selector: 'app-user-authenticated',
@@ -8,10 +9,14 @@ import { AuthService} from '../core/auth.service';
   styleUrls: ['./user-authenticated.component.css']
 })
 export class UserAuthenticatedComponent implements OnInit {
+
   user: any;
   title: String;
   itemDetails: any;
+  selectedItem: ItemDetails = new ItemDetails();
+  public rows: Array<{name: string, price: number, qty: number}> = [];
 
+  // get item details from firebase
   constructor(db: AngularFireDatabase, public authService: AuthService) {
     const x = db.list('itemDetails');
     x.valueChanges().subscribe(
@@ -20,10 +25,17 @@ export class UserAuthenticatedComponent implements OnInit {
         console.log(this.itemDetails);
       }
     );
-
+    // get logged user
     this.user = authService.getCurrentUser();
     this.title = this.user;
    }
+
+   getItemDetail(item: ItemDetails) {
+    this.selectedItem = item;
+    // this.rows.push( {name: this.selectedItem.name.toString(), price: parseFloat(this.selectedItem.price.toString()), qty:
+    //   parseFloat(this.selectedItem.inventory.toString()) } );
+    console.log('Selected item data is ', this.selectedItem.name);
+  }
 
   ngOnInit() {
   }

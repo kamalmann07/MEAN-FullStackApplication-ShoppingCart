@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ItemDetails } from '../itemDetails.model';
+import { ProductDataService } from '../product-data.service';
 
 @Component({
   selector: 'app-item-detail-page',
@@ -9,8 +10,8 @@ import { ItemDetails } from '../itemDetails.model';
 export class ItemDetailPageComponent implements OnInit {
    @Input()  item: ItemDetails;
 
-  constructor() {
-    console.log(this.item);
+  //  selectedItem: any = ItemDetails;
+  constructor(pds: ProductDataService) {
   }
 
   ngOnInit() {

@@ -100,3 +100,11 @@ th, td {
     cursor: pointer;
     border-radius: 5px;
 }
+
+#shopingCart{
+  width: 25%;
+  margin-top: 10px;
+  position:absolute;
+  top:0;
+  right:0;
+}
