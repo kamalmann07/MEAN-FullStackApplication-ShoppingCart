@@ -40,6 +40,22 @@
   color: white;
 }
 
+#btnUserInterface {
+  background-color: rgb(12, 152, 245); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#btnUserInterface:hover {
+  background-color: #4CAF50;; /* Green */
+  color: white;
+}
+
 #btnAddItem {
   background-color: rgb(12, 152, 245); /* Green */
   border: none;
@@ -52,7 +68,7 @@
 }
 
 #btnAddItem:hover {
-  background-color: #4CAF50;; /* Green */
+  background-color: #4CAF50; /* Green */
   color: white;
 }
 
@@ -62,37 +78,60 @@
 
 table {
   table-layout: fixed;
-  width: 58%;
+  width: 30%;
   border-collapse: collapse;
-  border: 3px solid blue;
+  border: 2.5px solid #0502055d;
 }
 
-thead th:nth-child(1) {
-  width: 15%;
+.textarea {
+  width: 35px;
+}
+
+.btnUpdate:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btnUpdate{
+  background-color: rgb(12, 152, 245); /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* thead th:nth-child(1) {
+  width: 20%;
 }
 
 thead th:nth-child(2) {
-  width: 25%;
+  width: 40%;
   padding: 16px;
 }
 
 thead th:nth-child(3) {
-  width: 15%;
-}
-
-thead th:nth-child(4) {
-  width: 10%;
-}
-
-thead th:nth-child(5) {
   width: 20%;
 }
 
-thead th:nth-child(6) {
-  width: 15%;
-}
+thead th:nth-child(4) {
+  width:20%;
+} */
 
 th, td {
   padding: 5px;
-  border: 2px solid purple;
+  border: 1px solid hsla(300, 20%, 1%, 0.459);
+}
+
+#manageUsers{
+  width: 25%;
+  margin-top: 10px;
+  position:absolute;
+  top:0;
+  right:0;
 }

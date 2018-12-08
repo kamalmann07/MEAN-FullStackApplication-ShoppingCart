@@ -19,12 +19,11 @@ export class AuthenicateUserComponent implements OnInit {
 
    loginWithEmail(loginForm) {
     this.authService.signInRegular(loginForm);
-    // console.log('Test string is ' + this.authService.getVerMailStatus());
   }
 
-  loginAsAdmin(loginForm) {
-    this.authService.signInAsAdmin(loginForm);
-  }
+  // loginAsAdmin(loginForm) {
+  //   this.authService.signInAsAdmin(loginForm);
+  // }
 
   ngOnInit() {
   }

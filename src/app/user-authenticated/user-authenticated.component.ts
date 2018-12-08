@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AuthService} from '../core/auth.service';
 import { ItemDetails } from '../itemDetails.model';
+import { ProductDataService } from '../product-data.service';
 
 @Component({
   selector: 'app-user-authenticated',
@@ -17,14 +18,7 @@ export class UserAuthenticatedComponent implements OnInit {
   public rows: Array<{name: string, price: number, qty: number}> = [];
 
   // get item details from firebase
-  constructor(db: AngularFireDatabase, public authService: AuthService) {
-    const x = db.list('itemDetails');
-    x.valueChanges().subscribe(
-      items => {
-        this.itemDetails = items;
-        console.log(this.itemDetails);
-      }
-    );
+  constructor(private authService: AuthService, private pds: ProductDataService) {
     // get logged user
     this.user = authService.getCurrentUser();
     this.title = this.user;
@@ -38,6 +32,20 @@ export class UserAuthenticatedComponent implements OnInit {
   }
 
   ngOnInit() {
+    const itemList = this.pds.getItemsData();
+    itemList.snapshotChanges().subscribe(
+      items => {
+        items = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
+        this.itemDetails = [];
+        items.forEach(element => {
+          const y = element.payload.toJSON();
+          y['$key'] = element.key;
+          this.itemDetails.push(y as ItemDetails);
+          console.log('testdata is  ' + this.itemDetails);
+        }
+        );
+      }
+    );
   }
 
 }

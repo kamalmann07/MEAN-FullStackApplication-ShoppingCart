@@ -6,3 +6,7 @@ export class ItemDetails {
     price: Number;
     rating: Number;
 }
+
+export class AdminRights {
+    username: String;
+}

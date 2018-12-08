@@ -6,19 +6,19 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
   providedIn: 'root'
 })
 export class ProductDataService {
-  itemDetails: any;
+  itemDetails: AngularFireList<any>;
+  admin: AngularFireList<any>;
 
-  constructor(db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase) {
    }
 
-   getData(db: AngularFireDatabase): any {
-    const x = db.list('itemDetails');
-    x.valueChanges().subscribe(
-      items => {
-        this.itemDetails = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
-        console.log(this.itemDetails);
-      }
-    );
+   getItemsData(): any {
+    this.itemDetails = this.db.list('itemDetails');
     return this.itemDetails;
+   }
+
+   getAdminDetails(): any {
+    this.admin = this.db.list('Admin');
+    return this.admin;
    }
 }

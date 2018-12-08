@@ -3,6 +3,7 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { DataSource } from '@angular/cdk/table';
 import { ItemDetails } from '../itemDetails.model';
 import { ProductDataService } from '../product-data.service';
+import { element } from 'protractor';
 
 
 @Component({
@@ -15,18 +16,27 @@ export class DefaultPageComponent implements OnInit {
   title = 'Default Page';
   itemDetails: any;
   test: any;
-  // selectedItem: ItemDetails = new ItemDetails();
+  itemList: AngularFireList<any>;
 
-  constructor(db: AngularFireDatabase, pds: ProductDataService) {
-    const x = db.list('itemDetails');
-    x.valueChanges().subscribe(
-      items => {
-        this.itemDetails = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
-      }
-    );
+  constructor(private pds: ProductDataService) {
    }
 
+
   ngOnInit() {
+    const itemList = this.pds.getItemsData();
+    itemList.snapshotChanges().subscribe(
+      items => {
+        items = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
+        this.itemDetails = [];
+        items.forEach(element => {
+          const y = element.payload.toJSON();
+          y['$key'] = element.key;
+          this.itemDetails.push(y as ItemDetails);
+          console.log('testdata is  ' + this.itemDetails);
+        }
+        );
+      }
+    );
   }
 
   // getItemDetail(item: ItemDetails) {

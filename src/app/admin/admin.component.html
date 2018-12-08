@@ -3,6 +3,7 @@
   <h2>
     Welcome Admin {{ title }}!
   </h2>
+  <button id="btnUserInterface">Go Shopping</button>
   <button id="btnLogin" routerLink = "/defaultPage">Logout</button>
 </div>
 
@@ -27,6 +28,42 @@
     </div>
     <button type="submit" class="btn btn-default" id="btnAddItem">Add Item</button>
   </form>
+</div>
+<br>
+<div>
+  <table id="updateInventory">
+    <thead>
+      <th>Item</th>
+      <th>updated Inventory</th>
+      <th> Price </th>
+      <th>Save</th>
+      <th>Delete Item</th>
+      
+    </thead>
+    <tr *ngFor = "let item of itemDetails">
+           <td> {{ item.name }} </td> 
+           <td>  <input class="textarea" type="number"> </td>
+           <td>  <input class="textarea" type="number"> </td>
+           <td> <button class="btnUpdate">Save</button> </td>
+           <td> <button class="btnUpdate">Delete</button> </td>
+      </tr>
+  </table>
+</div>
+<br>
+<br>
+<div>
+  <table id="manageUsers">
+    <thead>
+      <th>User</th>
+      <th>Deactivate Account</th>
+      <th>Assign Admin Rights</th>
+    </thead>
+    <tr *ngFor = "let user of userList">
+      <td  style="overflow:scroll; width:50px;"> {{ user.username }} </td> 
+      <td> <button class="btnUpdate">Deactivate</button> </td>
+      <td> <button class="btnUpdate">Assign</button> </td>
+ </tr>
+  </table>
 </div>
 </div>
 <router-outlet></router-outlet>
