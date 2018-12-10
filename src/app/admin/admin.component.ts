@@ -4,6 +4,7 @@ import { AuthService } from '../core/auth.service';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { ProductDataService } from '../product-data.service';
 import { ItemDetails, AdminRights } from '../itemDetails.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -16,35 +17,39 @@ export class AdminComponent implements OnInit {
   itemDetails: any;
   userList: any;
 
-  constructor(authService: AuthService, db: AngularFireDatabase, private pds: ProductDataService) {
+  constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient) {
     this.addItems = new FormGroup({ itemname: new FormControl(), imageLoaction: new FormControl(), price: new FormControl(),
       Inventory: new FormControl() });
       this.title = 'authService.getCurrentUser()';
-
-    // Get User Details
-    // const user = db.list('Admin');
-    // user.valueChanges().subscribe(
-    //   users => {
-    //     this.userList = users;
-    //   }
-    // );
    }
+
+   addItem(addItems) {
+    this.http.post('http://localhost:8080/add', {name: addItems.itemname, imageLocation: addItems.imageLoaction,
+    price: addItems.price, inventory: addItems.Inventory, rating : 0, itemsSold: 0 }).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log('Error occured');
+      }
+    );
+    }
 
   ngOnInit() {
     // Get Items Data
-    const itemList = this.pds.getItemsData();
-    itemList.snapshotChanges().subscribe(
-      items => {
-        items = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
-        this.itemDetails = [];
-        items.forEach(element => {
-          const y = element.payload.toJSON();
-          y['$key'] = element.key;
-          this.itemDetails.push(y as ItemDetails);
-        }
-        );
-      }
-    );
+    // const itemList = this.pds.getItemsData();
+    // itemList.snapshotChanges().subscribe(
+    //   items => {
+    //     items = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
+    //     this.itemDetails = [];
+    //     items.forEach(element => {
+    //       const y = element.payload.toJSON();
+    //       y['$key'] = element.key;
+    //       this.itemDetails.push(y as ItemDetails);
+    //     }
+    //     );
+    //   }
+    // );
 
     const admin = this.pds.getAdminDetails();
     admin.snapshotChanges().subscribe(
@@ -58,6 +63,11 @@ export class AdminComponent implements OnInit {
         );
       }
     );
+
+        // Data From Mongo DB
+        this.http.get('http://localhost:8080/Items').subscribe(items => {
+          this.itemDetails = items;
+        });
   }
 
 }

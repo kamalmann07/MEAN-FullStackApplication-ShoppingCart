@@ -41,16 +41,19 @@ app.get('/Items', function (req, res) {
 
 //Function to insert rows
 app.post('/add', function (req, res) {
-  // console.log(req.body);
-  console.log("Calling Function");
    var addImage = new ItemDetails();
    addImage.name = req.body.name;
+   addImage.imageLocation = req.body.imageLocation;
+   addImage.price = req.body.price;
+   addImage.inventory = req.body.inventory;
+   addImage.rating = req.body.rating;
+   addImage.itemsSold = req.body.itemsSold;
 
    addImage.save(function (err) {
        if (err) {
            res.send(err);
        }
-       res.send({ message: 'Product Created !' })
+       res.send({ message: req.body.name + ' Product is Created !' })
    })
 });
 

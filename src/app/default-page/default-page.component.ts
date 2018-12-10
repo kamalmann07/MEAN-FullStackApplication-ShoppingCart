@@ -4,6 +4,7 @@ import { DataSource } from '@angular/cdk/table';
 import { ItemDetails } from '../itemDetails.model';
 import { ProductDataService } from '../product-data.service';
 import { element } from 'protractor';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -18,30 +19,32 @@ export class DefaultPageComponent implements OnInit {
   test: any;
   itemList: AngularFireList<any>;
 
-  constructor(private pds: ProductDataService) {
+  constructor(private pds: ProductDataService, private http: HttpClient) {
    }
 
 
   ngOnInit() {
-    const itemList = this.pds.getItemsData();
-    itemList.snapshotChanges().subscribe(
-      items => {
-        items = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
-        this.itemDetails = [];
-        items.forEach(element => {
-          const y = element.payload.toJSON();
-          y['$key'] = element.key;
-          this.itemDetails.push(y as ItemDetails);
-          console.log('testdata is  ' + this.itemDetails);
-        }
-        );
-      }
-    );
-  }
+    // Firebase Code Start
+    // const itemList = this.pds.getItemsData();
+    // itemList.snapshotChanges().subscribe(
+    //   items => {
+    //     items = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
+    //     this.itemDetails = [];
+    //     items.forEach(element => {
+    //       const y = element.payload.toJSON();
+    //       y['$key'] = element.key;
+    //       this.itemDetails.push(y as ItemDetails);
+    //       console.log('testdata is  ' + this.itemDetails);
+    //     }
+    //     );
+    //   }
+    // );
+    // Firebase Code End
 
-  // getItemDetail(item: ItemDetails) {
-  //   console.log(item);
-  //   this.selectedItem = item;
-  // }
+    // Get Data from mongo
+    this.http.get('http://localhost:8080/Items').subscribe(items => {
+      this.itemDetails = items;
+  });
+  }
 
 }
