@@ -71,6 +71,19 @@ app.put('/update', function (req, res) {
     })
   });
 
+  // Update inventory after order confirmation
+app.put('/order', function (req, res) {
+    var itemtoupdate = req.body.name;
+    var inventory = req.body.inventory;
+    var newvalues = { $set: { 'inventory': inventory } };
+    var c = ItemDetails.updateOne({ 'name': itemtoupdate }, newvalues, function (err, c) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: itemtoupdate + ' Product has been Updated after order placing !' })
+    })
+  });
+
   //delete rows
 app.delete('/delete', function (req, res) {
     var item = req.body.name;

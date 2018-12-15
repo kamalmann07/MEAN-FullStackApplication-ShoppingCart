@@ -45,8 +45,13 @@
       <td>{{selected.tax}}</td>
       <td> <button class="btnToEditCart" (click)="increment(selected)">+</button> </td>
       <td> <button class="btnToEditCart" (click)="removeItem(selected)">-</button> </td>
+      <td>{{selected.inventory}}</td>
     </tr>
   </table>
+  <div id="orderDetails"  align="right">
+    <button class="btnToCart" (click)="buy()">Buy</button> 
+    <button class="btnToCart" (click)="clearCart()">Cancel</button> 
+  </div>
 <!-- </div> -->
   </div>
   <router-outlet></router-outlet>

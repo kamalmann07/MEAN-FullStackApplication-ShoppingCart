@@ -24,6 +24,7 @@ export class UserAuthenticatedComponent implements OnInit {
     // get logged user
     this.user = authService.getCurrentUser();
     this.title = this.user;
+
    }
 
   // Add Data into Cart
@@ -35,6 +36,16 @@ export class UserAuthenticatedComponent implements OnInit {
     } else {
       console.log('Invalid Quantity Selected');
     }
+
+    // Add Html to Shopping Cart
+    const table: HTMLTableElement = <HTMLTableElement> document.getElementById('shopingCart');
+    // if (table.rows.length === 0) {
+    const row = table.insertRow(table.rows.length);
+    // const cell1 = row.insertCell(0);
+    // const cell2 = row.insertCell(1);
+    // cell1.innerHTML = '<button class="btnToCart" (click)="buy()">Buy</button> ';
+    // cell2.innerHTML = '<button class="btnToCart" (click)="clearCart()">Clear</button> ';
+    // }
   }
 
   // Increment Item Number
@@ -46,6 +57,31 @@ export class UserAuthenticatedComponent implements OnInit {
       selected.qty = selected.qty + 1;
     } else {
       console.log('Invalid Quantity Selected');
+    }
+  }
+
+  buy() {
+    const table: HTMLTableElement = <HTMLTableElement> document.getElementById('shopingCart');
+    for ( let i = 0 ; i < table.rows.length; i++) {
+      const updatedInv: number = parseInt(table.rows[i].cells[6].innerHTML.toString(), 10) - parseInt(table.rows[i].cells[2].innerHTML, 10);
+      this.http.put('http://localhost:8080/order', {name: table.rows[i].cells[0].innerHTML, inventory: updatedInv }).subscribe(
+        res => {
+          console.log(res);
+          if (i = table.rows.length - 1) {
+            this.clearCart();
+          }
+        },
+        err => {
+          console.log('Error occured');
+        }
+      );
+    }
+  }
+
+  clearCart() {
+
+    while ( this.rows.length > 0) {
+      this.rows.splice( 0, 1 );
     }
   }
 
