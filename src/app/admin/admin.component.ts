@@ -16,6 +16,7 @@ export class AdminComponent implements OnInit {
   title: String;
   itemDetails: any;
   userList: any;
+  delItem: String = 'TYY';
 
   constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient) {
     this.addItems = new FormGroup({ itemname: new FormControl(), imageLoaction: new FormControl(), price: new FormControl(),
@@ -34,6 +35,35 @@ export class AdminComponent implements OnInit {
       }
     );
     }
+
+    updateItem(item) {
+      this.http.put('http://localhost:8080/update', {name: item.name, price: item.price, inventory: item.inventory }).subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log('Error occured');
+        }
+      );
+      }
+
+      onClick(event) {
+        const target = event.target || event.srcElement || event.currentTarget;
+        const idAttr = target.attributes.id;
+        const value = idAttr.nodeValue;
+        console.log('The captured value is ' + target);
+      }
+
+      // deleteItem() {
+      //   this.http.delete('http://localhost:8080/delete', { name: this.delItem }).subscribe(
+      //     res => {
+      //       console.log(res);
+      //     },
+      //     err => {
+      //       console.log('Error occured');
+      //     }
+      //   );
+      // }
 
   ngOnInit() {
     // Get Items Data
@@ -63,6 +93,7 @@ export class AdminComponent implements OnInit {
         );
       }
     );
+
 
         // Data From Mongo DB
         this.http.get('http://localhost:8080/Items').subscribe(items => {

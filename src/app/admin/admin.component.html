@@ -42,9 +42,9 @@
     </thead>
     <tr *ngFor = "let item of itemDetails">
            <td> {{ item.name }} </td> 
-           <td>  <input class="textarea" type="number"> </td>
-           <td>  <input class="textarea" type="number"> </td>
-           <td> <button class="btnUpdate">Save</button> </td>
+           <td>  <input class="textarea" type="number" value="{{item.price}}" [(ngModel)]= "item.price"> </td>
+           <td>  <input class="textarea" type="number" value="{{item.inventory}}" [(ngModel)]= "item.inventory"> </td>
+           <td> <button class="btnUpdate" (click)="updateItem(item)">Save</button> </td>
            <td> <button class="btnUpdate">Delete</button> </td>
       </tr>
   </table>

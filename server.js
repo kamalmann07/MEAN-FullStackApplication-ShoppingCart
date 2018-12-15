@@ -57,6 +57,31 @@ app.post('/add', function (req, res) {
    })
 });
 
+// Update items
+app.put('/update', function (req, res) {
+    var itemtoupdate = req.body.name;
+    var price = req.body.price;
+    var inventory = req.body.inventory;
+    var newvalues = { $set: { 'price': price, 'inventory': inventory } };
+    var c = ItemDetails.updateOne({ 'name': itemtoupdate }, newvalues, function (err, c) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: itemtoupdate + ' Product has been Updated !' })
+    })
+  });
+
+  //delete rows
+app.delete('/delete', function (req, res) {
+    var item = req.body.name;
+    var c = ItemDetails.deleteOne({ 'name': item}, function (err, c) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: 'Product Updated !' })
+    })
+  });
+
 app.listen(8080); // start server
 
 console.log('Listening on port 8080');

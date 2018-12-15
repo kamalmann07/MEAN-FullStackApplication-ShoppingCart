@@ -16,7 +16,8 @@ export class UserAuthenticatedComponent implements OnInit {
   title: String;
   itemDetails: any;
   selectedItem: ItemDetails = new ItemDetails();
-  public rows: Array<{name: string, price: number, qty: number}> = [];
+  public rows: Array<{name: string, price: number, qty: number, tax: number, inventory: number}> = [];
+  qtyToPurchase: number;
 
   // get item details from firebase
   constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient) {
@@ -25,11 +26,38 @@ export class UserAuthenticatedComponent implements OnInit {
     this.title = this.user;
    }
 
-   getItemDetail(item: ItemDetails) {
-    this.selectedItem = item;
-    // this.rows.push( {name: this.selectedItem.name.toString(), price: parseFloat(this.selectedItem.price.toString()), qty:
-    //   parseFloat(this.selectedItem.inventory.toString()) } );
-    console.log('Selected item data is ', this.selectedItem.name);
+  // Add Data into Cart
+  addToCart(item) {
+    const subTotal: number = item.price * 1.13 * this.qtyToPurchase;
+    if (this.qtyToPurchase <= item.inventory) {
+    this.rows.push({ name: item.name.toString(), price: item.price * this.qtyToPurchase,
+      qty: this.qtyToPurchase, tax: subTotal, inventory: item.inventory});
+    } else {
+      console.log('Invalid Quantity Selected');
+    }
+  }
+
+  // Increment Item Number
+  increment(selected) {
+
+    if (selected.inventory >= selected.qty + 1) {
+      selected.price = (selected.price / selected.qty) * (selected.qty + 1);
+      selected.tax = selected.price * .13;
+      selected.qty = selected.qty + 1;
+    } else {
+      console.log('Invalid Quantity Selected');
+    }
+  }
+
+  // Decrement Item Count
+  removeItem(selected) {
+    if (selected.qty === 1) {
+      console.log('Cannot increment value from cart');
+    } else {
+      selected.price = (selected.price / selected.qty) * (selected.qty - 1);
+      selected.tax = selected.price * .13;
+      selected.qty = selected.qty - 1;
+    }
   }
 
   ngOnInit() {

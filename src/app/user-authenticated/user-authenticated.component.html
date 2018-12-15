@@ -18,27 +18,33 @@
           <th>Action</th>
         </tr>
         </thead>
-      <tr *ngFor = "let item of itemDetails" [class.Selected]="item === selectedProduct" 
-      (click)="getItemDetail(item)" >
+      <tr *ngFor = "let item of itemDetails" [class.Selected]="item === selectedProduct" >
            <td> {{ item.name }} </td> 
            <td> <img src="{{item.imageLocation}}" height="120" width="180"> </td>
            <td> {{item.price}} </td>
            <td> {{item.rating}} </td>
-           <td> <input type="number"> </td>
-           <td> <button class="btnToCart">Add</button> </td>
+           <td> <input type="number" value="{{item.inventory}}" [(ngModel)] = "qtyToPurchase" > </td>
+           <td> <button class="btnToCart" (click)="addToCart(item)">Add</button> </td>
       </tr>
   </table>
   <!-- <div align="right"> -->
   <table id="shopingCart"  align="right"  style="vertical-align: top;">
     <thead>
       <th>Item</th>
-      <th>Quantity</th>
       <th>Price</th>
+      <th>Qty</th>
+      <th>Tax</th>
+      <th>Add</th>
+      <th>Remove</th>
+      <th>inventory</th>
     </thead>
     <tr *ngFor = "let selected of rows">
       <td>{{selected.name}}</td>
       <td>{{selected.price}}</td>
       <td>{{selected.qty}}</td>
+      <td>{{selected.tax}}</td>
+      <td> <button class="btnToEditCart" (click)="increment(selected)">+</button> </td>
+      <td> <button class="btnToEditCart" (click)="removeItem(selected)">-</button> </td>
     </tr>
   </table>
 <!-- </div> -->
