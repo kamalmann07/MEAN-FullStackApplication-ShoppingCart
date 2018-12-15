@@ -22,6 +22,9 @@ export class DefaultPageComponent implements OnInit {
   constructor(private pds: ProductDataService, private http: HttpClient) {
    }
 
+   sortData() {
+    this.itemDetails.sort((a, b) => (a as any).inventory - (b as any).inventory).reverse();
+   }
 
   ngOnInit() {
     // Firebase Code Start
@@ -44,6 +47,11 @@ export class DefaultPageComponent implements OnInit {
     // Get Data from mongo
     this.http.get('http://localhost:8080/Items').subscribe(items => {
       this.itemDetails = items;
+      const filtered = this.itemDetails.filter(function(item) {
+        return item.inventory > 0;
+      });
+    this.itemDetails = filtered;
+    this.itemDetails.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
   });
   }
 

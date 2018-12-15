@@ -12,6 +12,7 @@ import { AuthService} from '../core/auth.service';
 export class AuthenicateUserComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: String;
+  text: any;
 
   constructor(public authService: AuthService) {
     this.loginForm = new FormGroup({ email: new FormControl(), password: new FormControl() });

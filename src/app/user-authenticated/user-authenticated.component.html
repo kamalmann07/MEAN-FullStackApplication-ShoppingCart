@@ -4,6 +4,7 @@
       Welcome back User {{ title }} !
     </h2>
     <button id="btnLogin" routerLink = "/defaultPage">Logout</button>
+    <button id="btnSort" (click)="sortData()">Sort Items </button>
   </div>
   
   <div id="divItemDetails" class="lower">
@@ -36,7 +37,8 @@
       <th>Tax</th>
       <th>Add</th>
       <th>Remove</th>
-      <th>inventory</th>
+      <th style="display:none;">inventory</th>
+      <th style="display:none;">Items Sold</th>
     </thead>
     <tr *ngFor = "let selected of rows">
       <td>{{selected.name}}</td>
@@ -45,7 +47,8 @@
       <td>{{selected.tax}}</td>
       <td> <button class="btnToEditCart" (click)="increment(selected)">+</button> </td>
       <td> <button class="btnToEditCart" (click)="removeItem(selected)">-</button> </td>
-      <td>{{selected.inventory}}</td>
+      <td style="display:none;">{{selected.inventory}}</td>
+      <td style="display:none;">{{selected.itemSold}}</td>
     </tr>
   </table>
   <div id="orderDetails"  align="right">

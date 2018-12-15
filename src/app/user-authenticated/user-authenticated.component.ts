@@ -16,7 +16,7 @@ export class UserAuthenticatedComponent implements OnInit {
   title: String;
   itemDetails: any;
   selectedItem: ItemDetails = new ItemDetails();
-  public rows: Array<{name: string, price: number, qty: number, tax: number, inventory: number}> = [];
+  public rows: Array<{name: string, price: number, qty: number, tax: number, inventory: number, itemSold: number}> = [];
   qtyToPurchase: number;
 
   // get item details from firebase
@@ -32,7 +32,7 @@ export class UserAuthenticatedComponent implements OnInit {
     const subTotal: number = item.price * 1.13 * this.qtyToPurchase;
     if (this.qtyToPurchase <= item.inventory) {
     this.rows.push({ name: item.name.toString(), price: item.price * this.qtyToPurchase,
-      qty: this.qtyToPurchase, tax: subTotal, inventory: item.inventory});
+      qty: this.qtyToPurchase, tax: subTotal, inventory: item.inventory, itemSold: item.itemsSold});
     } else {
       console.log('Invalid Quantity Selected');
     }
@@ -64,11 +64,15 @@ export class UserAuthenticatedComponent implements OnInit {
     const table: HTMLTableElement = <HTMLTableElement> document.getElementById('shopingCart');
     for ( let i = 0 ; i < table.rows.length; i++) {
       const updatedInv: number = parseInt(table.rows[i].cells[6].innerHTML.toString(), 10) - parseInt(table.rows[i].cells[2].innerHTML, 10);
-      this.http.put('http://localhost:8080/order', {name: table.rows[i].cells[0].innerHTML, inventory: updatedInv }).subscribe(
+      const updatedSoldCount: number = parseInt(table.rows[i].cells[7].innerHTML.toString(), 10) +
+      parseInt(table.rows[i].cells[2].innerHTML, 10);
+      this.http.put('http://localhost:8080/order',
+      {name: table.rows[i].cells[0].innerHTML, inventory: updatedInv, itemsSold: updatedSoldCount }).subscribe(
         res => {
           console.log(res);
           if (i = table.rows.length - 1) {
             this.clearCart();
+            this.getItemDetails();
           }
         },
         err => {
@@ -85,6 +89,10 @@ export class UserAuthenticatedComponent implements OnInit {
     }
   }
 
+  sortData() {
+    this.itemDetails.sort((a, b) => (a as any).inventory - (b as any).inventory).reverse();
+   }
+
   // Decrement Item Count
   removeItem(selected) {
     if (selected.qty === 1) {
@@ -94,6 +102,17 @@ export class UserAuthenticatedComponent implements OnInit {
       selected.tax = selected.price * .13;
       selected.qty = selected.qty - 1;
     }
+  }
+
+  getItemDetails() {
+    this.http.get('http://localhost:8080/Items').subscribe(items => {
+      this.itemDetails = items;
+      const filtered = this.itemDetails.filter(function(item) {
+        return item.inventory > 0;
+      });
+      this.itemDetails = filtered;
+      this.itemDetails.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
+    });
   }
 
   ngOnInit() {
@@ -113,9 +132,7 @@ export class UserAuthenticatedComponent implements OnInit {
     // );
 
     // Data From Mongo DB
-    this.http.get('http://localhost:8080/Items').subscribe(items => {
-      this.itemDetails = items;
-    });
+    this.getItemDetails();
   }
 
 }

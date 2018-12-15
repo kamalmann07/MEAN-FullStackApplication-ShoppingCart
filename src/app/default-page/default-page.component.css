@@ -24,6 +24,30 @@
     right:0;
 }
 
+#btnSort {
+  margin-top: 50px;
+  margin-right: 1220px;
+  position:absolute;
+  top:0;
+  right:0;
+}
+
+#btnSort {
+  background-color: rgb(12, 152, 245); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#btnSort:hover {
+  background-color: #4CAF50;; /* Green */
+  color: white;
+}
+
 /* Table Look and Feel */
 
 /* spacing */

@@ -75,7 +75,8 @@ app.put('/update', function (req, res) {
 app.put('/order', function (req, res) {
     var itemtoupdate = req.body.name;
     var inventory = req.body.inventory;
-    var newvalues = { $set: { 'inventory': inventory } };
+    var itemsSold = req.body.itemsSold;
+    var newvalues = { $set: { 'inventory': inventory, 'itemsSold': itemsSold } };
     var c = ItemDetails.updateOne({ 'name': itemtoupdate }, newvalues, function (err, c) {
         if (err) {
             res.send(err);

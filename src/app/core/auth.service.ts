@@ -14,7 +14,9 @@ export class AuthService {
   verMail;
   admins: any;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router, private db: AngularFireDatabase) { }
+  constructor(public afAuth: AngularFireAuth, private router: Router, private db: AngularFireDatabase) {
+
+   }
 
   doRegister(registerForm) {
     // Create User Sign up
@@ -37,20 +39,39 @@ export class AuthService {
   }
 
   signInRegular(loginForm) {
-    // let status;
+
+    // return new Promise<any>((resolve, reject) => {
     firebase.auth().signInWithEmailAndPassword(loginForm.email, loginForm.password)
       .then((user) => {
         const userName = firebase.auth().currentUser;
+
+
+        // const x = this.db.list('Admin');
+        // x.valueChanges().subscribe(
+        //   admin => {
+        //     this.admins = JSON.stringify(admin);
+        //     console.log(this.admins);
+        //   });
+
+
+        //   for (let i = 0; i < JSON.parse(this.admins).length; i++) {
+        //     if (JSON.parse(this.admins)[i].username === userName) {
+        //       console.log('Admin Found ' + JSON.parse(this.admins)[i].username);
+        //     }
+        //   }
+
         if (userName.emailVerified) {
             this.router.navigate(['/authenticatedUser']);
-
+            return Promise.resolve({verMail : 'Authenticated'});
         } else {
           this.verMail = 'Please verify your email.';
+          // return Promise.resolve({verMail : 'Please verify your email.'});
         }
       })
       .catch(error => {
-        console.log('Invalid Credientials. Please try again.');
+        console.log('Invalid Credientials. Please try again.' + error);
       });
+    // });
   }
 
   signInAsAdmin(loginForm) {
