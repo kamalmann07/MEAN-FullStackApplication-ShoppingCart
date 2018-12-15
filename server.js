@@ -6,6 +6,7 @@ app.use('/', express.static('static'));
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 var ItemDetails = require('./data');
+var userComments = require('./Comments');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
     extended: true
@@ -39,6 +40,18 @@ app.get('/Items', function (req, res) {
   });
 })
 
+
+//Get User Comments from MongoDB
+app.get('/getUserComments', function (req, res) {
+    var UserComments = userComments.find(function (err, comments) {
+        if (err) {
+            res.send(err);
+        }
+        res.send(comments);
+      //   console.log(itemDetails);
+    });
+  })
+
 //Function to insert rows
 app.post('/add', function (req, res) {
    var addImage = new ItemDetails();
@@ -56,6 +69,22 @@ app.post('/add', function (req, res) {
        res.send({ message: req.body.name + ' Product is Created !' })
    })
 });
+
+
+//Function to insert rows
+app.post('/addUserComment', function (req, res) {
+    var addComment = new userComments();
+    addComment.name = req.body.name;
+    addComment.comment = req.body.comment;
+    addComment.user = req.body.user;
+ 
+    addComment.save(function (err) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: req.body.name + ' User Comment is Created !' })
+    })
+ });
 
 // Update items
 app.put('/update', function (req, res) {

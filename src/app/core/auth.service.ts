@@ -92,6 +92,9 @@ export class AuthService {
     return userName.uid;
   }
 
+  deactivateUser() {
+  }
+
   getVerMailStatus(): String {
     console.log('Verification status retured by method is ' + this.verMail);
     return this.verMail;

@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ItemDetails } from '../itemDetails.model';
 import { ProductDataService } from '../product-data.service';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../core/auth.service';
 
 @Component({
   selector: 'app-item-detail-page',
@@ -9,12 +12,53 @@ import { ProductDataService } from '../product-data.service';
 })
 export class ItemDetailPageComponent implements OnInit {
    @Input()  item: ItemDetails;
+   selectedProduct: any;
+   userName: String;
+   userComment: String;
+   comments: any;
 
   //  selectedItem: any = ItemDetails;
-  constructor(pds: ProductDataService) {
+  constructor(private router: Router, private http: HttpClient, private auth: AuthService) {
+    this.userName = auth.getCurrentUser();
+  }
+
+  addComment() {
+    const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
+    this.http.post('http://localhost:8080/addUserComment', {name: itemName, comment: this.userComment, user: this.userName }).subscribe(
+      res => {
+        console.log(res);
+        this.getUserComments();
+      },
+      err => {
+        console.log('Error occured');
+      }
+    );
+  }
+
+  getUserComments() {
+    const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
+    this.http.get('http://localhost:8080/getUserComments').subscribe(comment => {
+      this.comments = comment;
+      const filtered = this.comments.filter(function(item) {
+        return item.name === itemName;
+      });
+      this.comments = filtered;
+      // console.log(this.comments);
+    });
   }
 
   ngOnInit() {
+    const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
+    this.http.get('http://localhost:8080/Items').subscribe(items => {
+      this.selectedProduct = items;
+      const filtered = this.selectedProduct.filter(function(item) {
+        return item.name === itemName;
+      });
+      this.selectedProduct = filtered;
+      // console.log(this.selectedProduct);
+    });
+
+    this.getUserComments();
   }
 
 }

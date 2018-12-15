@@ -4,6 +4,7 @@ import { AuthService} from '../core/auth.service';
 import { ItemDetails } from '../itemDetails.model';
 import { ProductDataService } from '../product-data.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-authenticated',
@@ -18,14 +19,27 @@ export class UserAuthenticatedComponent implements OnInit {
   selectedItem: ItemDetails = new ItemDetails();
   public rows: Array<{name: string, price: number, qty: number, tax: number, inventory: number, itemSold: number}> = [];
   qtyToPurchase: number;
+  selectedProduct: any;
 
   // get item details from firebase
-  constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient) {
+  constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient, private router: Router) {
     // get logged user
     this.user = authService.getCurrentUser();
     this.title = this.user;
 
    }
+
+  //  Route to Item Details
+   itemPage(item) {
+     this.selectedProduct = item;
+    this.router.navigate(['/itemDetail'], {queryParams: {name: item.name}});
+   }
+
+  //  Return Seleted Item
+   returnSelectedProduct(): any {
+     return this.selectedProduct;
+   }
+
 
   // Add Data into Cart
   addToCart(item) {
