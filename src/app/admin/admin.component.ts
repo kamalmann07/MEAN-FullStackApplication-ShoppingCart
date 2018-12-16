@@ -4,7 +4,8 @@ import { AuthService } from '../core/auth.service';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { ProductDataService } from '../product-data.service';
 import { ItemDetails, AdminRights } from '../itemDetails.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import {RequestOptions, Request, RequestMethod, RequestOptionsArgs} from '@angular/http';
 
 @Component({
   selector: 'app-admin',
@@ -29,6 +30,7 @@ export class AdminComponent implements OnInit {
     price: addItems.price, inventory: addItems.Inventory, rating : 0, itemsSold: 0 }).subscribe(
       res => {
         console.log(res);
+        this.getItemDetails();
       },
       err => {
         console.log('Error occured');
@@ -40,6 +42,7 @@ export class AdminComponent implements OnInit {
       this.http.put('http://localhost:8080/update', {name: item.name, price: item.price, inventory: item.inventory }).subscribe(
         res => {
           console.log(res);
+          this.getItemDetails();
         },
         err => {
           console.log('Error occured');
@@ -47,7 +50,7 @@ export class AdminComponent implements OnInit {
       );
       }
 
-      assignAdminRights(user) {
+    assignAdminRights(user) {
         this.http.put('http://localhost:8080/updateUserDetails', {userName: user.userName, isAdmin: 'Y',
         isActive: 'Y'}).subscribe(
           res => {
@@ -57,9 +60,9 @@ export class AdminComponent implements OnInit {
             console.log('Error occured');
           }
         );
-        }
+      }
 
-        deactivateAccount(user) {
+      deactivateAccount(user) {
           this.http.put('http://localhost:8080/updateUserDetails', {userName: user.userName, isAdmin: 'N',
           isActive: 'N'}).subscribe(
             res => {
@@ -78,16 +81,17 @@ export class AdminComponent implements OnInit {
         console.log('The captured value is ' + target);
       }
 
-      // deleteItem() {
-      //   this.http.delete('http://localhost:8080/delete', { name: this.delItem }).subscribe(
-      //     res => {
-      //       console.log(res);
-      //     },
-      //     err => {
-      //       console.log('Error occured');
-      //     }
-      //   );
-      // }
+      deleteItem(item) {
+        // console.log(item.name);
+        this.http.request('delete', 'http://localhost:8080/delete', {body: {name: item.name} }).subscribe();
+      }
+
+  getItemDetails() {
+    // Data From Mongo DB
+    this.http.get('http://localhost:8080/Items').subscribe(items => {
+      this.itemDetails = items;
+    });
+  }
 
   ngOnInit() {
 
@@ -95,11 +99,7 @@ export class AdminComponent implements OnInit {
           this.userList = users;
         });
 
-
-        // Data From Mongo DB
-        this.http.get('http://localhost:8080/Items').subscribe(items => {
-          this.itemDetails = items;
-        });
+        this.getItemDetails();
   }
 
 }
