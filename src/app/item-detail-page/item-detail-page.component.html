@@ -14,6 +14,9 @@
       <td> <img src="{{item.imageLocation}}" height="120" width="180"> </td>
     </tr>
     <tr *ngFor = "let item of selectedProduct">
+        <td> <input type="text" text="Public" [(ngModel)] = "wishlistVisibility"> <button (click)="wishlistItem(item)"> Wishlist </button> </td>
+      </tr>
+    <tr *ngFor = "let item of selectedProduct">
       <td> <input value="{{item.rating}}" [(ngModel)]="userRating"> <button (click)="rateProduct()">Rate</button> </td>
     </tr>
     <tr>
@@ -23,5 +26,20 @@
       <td> {{comment.comment}} </td>
       <td> {{comment.user}} </td>
     </tr>
+  </table>
+</div>
+<div  align="right"  style="vertical-align: top;">
+  <h3>Wishlist</h3>
+  <table>
+    <thead>
+      <th>Item</th>
+      <th>Visibility</th>
+      <th>Remove</th>
+    </thead>
+    <tr *ngFor = "let itm of wishlist">
+        <td> {{itm.name}} </td>
+        <td> {{itm.visibility}} </td>
+        <td><button (click)="removeFromWishList(itm)">Delete</button></td>
+      </tr>
   </table>
 </div>

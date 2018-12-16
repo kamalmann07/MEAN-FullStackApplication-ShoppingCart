@@ -17,6 +17,9 @@ export class ItemDetailPageComponent implements OnInit {
    userComment: String;
    comments: any;
    userRating: Number;
+   wishlistVisibility: String;
+   wishlist: any;
+  //  public wishlist: Array<{name: string, visibility: String, user: String, group: String}> = [];
 
   //  selectedItem: any = ItemDetails;
   constructor(private router: Router, private http: HttpClient, private auth: AuthService) {
@@ -62,6 +65,40 @@ export class ItemDetailPageComponent implements OnInit {
     });
   }
 
+  // Populate wishlist
+  wishlistItem(item) {
+    // this.wishlist.push({name: item.name, visibility: '', user: this.userName, group: 'Test'});
+    this.http.post('http://localhost:8080/addWishlistItems', {name: item.name, visibility: this.wishlistVisibility,
+    user: this.userName, group: 'Default' }).subscribe(
+      res => {
+        console.log(res);
+        this.getWishlistDetails();
+      },
+      err => {
+        console.log('Error occured');
+      }
+    );
+  }
+
+  removeFromWishList(item) {
+    this.http.request('delete', 'http://localhost:8080/deleteFromWishlist', {body: {name: item.name,
+    user: this.userName} }).subscribe();
+    // this.getWishlistDetails();
+  }
+
+  getWishlistDetails() {
+    const username = this.auth.getCurrentUser();
+    console.log(username + ' is');
+    this.http.get('http://localhost:8080/getWishlistDetails').subscribe(wish => {
+      this.wishlist = wish;
+      const filtered = this.wishlist.filter(function(item) {
+        return item.user === username;
+      });
+      this.wishlist = filtered;
+      // console.log(this.wishlist);
+    });
+  }
+
   ngOnInit() {
     const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
     this.http.get('http://localhost:8080/Items').subscribe(items => {
@@ -74,6 +111,7 @@ export class ItemDetailPageComponent implements OnInit {
     });
 
     this.getUserComments();
+    this.getWishlistDetails();
   }
 
 }

@@ -8,6 +8,7 @@ var db = mongoose.connection;
 var ItemDetails = require('./data');
 var userComments = require('./Comments');
 var userDetails = require('./users');
+var wishlistDetails = require('./wishlist');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
     extended: true
@@ -64,6 +65,18 @@ app.get('/getUserDetails', function (req, res) {
     });
   })
 
+
+    //Get User Comments from MongoDB
+app.get('/getWishlistDetails', function (req, res) {
+    var UserComments = wishlistDetails.find(function (err, details) {
+        if (err) {
+            res.send(err);
+        }
+        res.send(details);
+      //   console.log(itemDetails);
+    });
+  })
+
 //Function to insert rows
 app.post('/add', function (req, res) {
    var addImage = new ItemDetails();
@@ -95,6 +108,22 @@ app.post('/addUserComment', function (req, res) {
             res.send(err);
         }
         res.send({ message: req.body.name + ' User Comment is Created !' })
+    })
+ });
+
+ //Function to insert rows
+app.post('/addWishlistItems', function (req, res) {
+    var addWishlist = new wishlistDetails();
+    addWishlist.name = req.body.name;
+    addWishlist.visibility = req.body.visibility;
+    addWishlist.user = req.body.user;
+    addWishlist.group = req.body.group;
+
+    addWishlist.save(function (err) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: req.body.user + ' wishlist is Created !' })
     })
  });
 
@@ -176,6 +205,19 @@ app.delete('/delete', function (req, res) {
             res.send(err);
         }
         res.send({ message: item + ' Product Deleted !' })
+    })
+  });
+
+
+  //delete rows
+app.delete('/deleteFromWishlist', function (req, res) {
+    var item = req.body.name;
+    var user = req.body.user;
+    var c = wishlistDetails.deleteOne({ 'name': item, 'user': user }, function (err, c) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: item + ' Deleted from wishlist of user ' + user })
     })
   });
 
