@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseAuth } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthService {
   verMail;
   admins: any;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router, private db: AngularFireDatabase) {
+  constructor(public afAuth: AngularFireAuth, private router: Router, private db: AngularFireDatabase, private http: HttpClient) {
 
    }
 
@@ -29,6 +30,7 @@ export class AuthService {
               // this.authState = user
               const userName = firebase.auth().currentUser;
               userName.sendEmailVerification();
+              this.insertUserDetails(userName.uid.toString());
               console.log('Verification Email Sent to user ' + userName.uid);
             })
             .catch(error => {
@@ -85,6 +87,17 @@ export class AuthService {
         console.log('Invalid Credientials. Please try again.');
         // throw error;
       });
+  }
+
+  insertUserDetails(username) {
+    this.http.post('http://localhost:8080/addUserDetails', {userName: username, isAdmin: 'N', isActive: 'Y' }).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log('Error occured');
+      }
+    );
   }
 
   getCurrentUser(): any {

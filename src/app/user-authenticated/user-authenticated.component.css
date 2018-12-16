@@ -160,3 +160,21 @@ th, td {
   background-color: #4CAF50;; /* Green */
   color: white;
 }
+
+#btnAdmin {
+  margin-top: -15px;
+  /* margin-right: 120px; */
+  background-color: rgb(12, 152, 245); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#btnAdmin:hover {
+  background-color: #4CAF50;; /* Green */
+  color: white;
+}

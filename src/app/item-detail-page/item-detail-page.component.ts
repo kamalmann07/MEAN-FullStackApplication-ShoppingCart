@@ -16,6 +16,7 @@ export class ItemDetailPageComponent implements OnInit {
    userName: String;
    userComment: String;
    comments: any;
+   userRating: Number;
 
   //  selectedItem: any = ItemDetails;
   constructor(private router: Router, private http: HttpClient, private auth: AuthService) {
@@ -35,6 +36,21 @@ export class ItemDetailPageComponent implements OnInit {
     );
   }
 
+
+  rateProduct() {
+    const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
+    // console.log('Rating updated is ' , this.userRating);
+    this.http.put('http://localhost:8080/updateRating', {name: itemName, rating: this.userRating}).subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log('Error occured');
+        }
+      );
+  }
+
+  // Get User Comments
   getUserComments() {
     const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
     this.http.get('http://localhost:8080/getUserComments').subscribe(comment => {
@@ -43,7 +59,6 @@ export class ItemDetailPageComponent implements OnInit {
         return item.name === itemName;
       });
       this.comments = filtered;
-      // console.log(this.comments);
     });
   }
 

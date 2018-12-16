@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var db = mongoose.connection;
 var ItemDetails = require('./data');
 var userComments = require('./Comments');
+var userDetails = require('./users');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
     extended: true
@@ -52,6 +53,17 @@ app.get('/getUserComments', function (req, res) {
     });
   })
 
+  //Get User Comments from MongoDB
+app.get('/getUserDetails', function (req, res) {
+    var UserComments = userDetails.find(function (err, details) {
+        if (err) {
+            res.send(err);
+        }
+        res.send(details);
+      //   console.log(itemDetails);
+    });
+  })
+
 //Function to insert rows
 app.post('/add', function (req, res) {
    var addImage = new ItemDetails();
@@ -86,10 +98,52 @@ app.post('/addUserComment', function (req, res) {
     })
  });
 
+ //Function to insert rows
+app.post('/addUserDetails', function (req, res) {
+    var addUserDetails = new userDetails();
+    addUserDetails.userName = req.body.userName;
+    addUserDetails.isAdmin = req.body.isAdmin;
+    addUserDetails.isActive = req.body.isActive;
+ 
+    addUserDetails.save(function (err) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: req.body.userName + ' User Details are Created !' })
+    })
+ });
+
+ // Update items
+app.put('/updateRating', function (req, res) {
+    var itemtoupdate = req.body.name;
+    var rating = req.body.rating;
+    var newvalues = { $set: { 'rating': rating } };
+    var c = ItemDetails.updateOne({ 'name': itemtoupdate }, newvalues, function (err, c) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: itemtoupdate + ' Product Rating has been Updated !' })
+    })
+  });
+
+   // Update user details
+app.put('/updateUserDetails', function (req, res) {
+    var itemtoupdate = req.body.userName;
+    var isActive = req.body.isActive;
+    var isAdmin = req.body.isAdmin;
+    var newvalues = { $set: { 'isActive': isActive, 'isAdmin': isAdmin } };
+    var c = userDetails.updateOne({ 'userName': itemtoupdate }, newvalues, function (err, c) {
+        if (err) {
+            res.send(err);
+        }
+        res.send({ message: itemtoupdate + ' User Details has been Updated ! ' })
+    })
+  });
+
 // Update items
 app.put('/update', function (req, res) {
     var itemtoupdate = req.body.name;
-    var price = req.body.price;
+    var isAdmin = req.body.isAdmin;
     var inventory = req.body.inventory;
     var newvalues = { $set: { 'price': price, 'inventory': inventory } };
     var c = ItemDetails.updateOne({ 'name': itemtoupdate }, newvalues, function (err, c) {

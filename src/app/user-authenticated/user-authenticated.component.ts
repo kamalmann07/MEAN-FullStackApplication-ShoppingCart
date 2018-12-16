@@ -20,13 +20,15 @@ export class UserAuthenticatedComponent implements OnInit {
   public rows: Array<{name: string, price: number, qty: number, tax: number, inventory: number, itemSold: number}> = [];
   qtyToPurchase: number;
   selectedProduct: any;
+  AdminText: String = '';
+  userDetails: any;
 
   // get item details from firebase
   constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient, private router: Router) {
     // get logged user
     this.user = authService.getCurrentUser();
     this.title = this.user;
-
+    // (<HTMLInputElement> document.getElementById('btnAdmin')).disabled = true;
    }
 
   //  Route to Item Details
@@ -53,13 +55,7 @@ export class UserAuthenticatedComponent implements OnInit {
 
     // Add Html to Shopping Cart
     const table: HTMLTableElement = <HTMLTableElement> document.getElementById('shopingCart');
-    // if (table.rows.length === 0) {
     const row = table.insertRow(table.rows.length);
-    // const cell1 = row.insertCell(0);
-    // const cell2 = row.insertCell(1);
-    // cell1.innerHTML = '<button class="btnToCart" (click)="buy()">Buy</button> ';
-    // cell2.innerHTML = '<button class="btnToCart" (click)="clearCart()">Clear</button> ';
-    // }
   }
 
   // Increment Item Number
@@ -129,24 +125,31 @@ export class UserAuthenticatedComponent implements OnInit {
     });
   }
 
+  // Handle admin button
+  handleAdminRights() {
+    this.http.get('http://localhost:8080/getUserDetails').subscribe(items => {
+      this.userDetails = items;
+      for (let i = 0; i < this.userDetails.length; i++) {
+        if (this.userDetails[i].userName === this.user && this.userDetails[i].isAdmin === 'N') {
+          const element = <HTMLInputElement> document.getElementById('btnAdmin');
+          element.disabled = false;
+          console.log('User is admin');
+          this.AdminText = 'Admin';
+        }
+      }
+    });
+  }
+
   ngOnInit() {
-    // const itemList = this.pds.getItemsData();
-    // itemList.snapshotChanges().subscribe(
-    //   items => {
-    //     items = items.sort((a, b) => (a as any).rating - (b as any).rating).reverse();
-    //     this.itemDetails = [];
-    //     items.forEach(element => {
-    //       const y = element.payload.toJSON();
-    //       y['$key'] = element.key;
-    //       this.itemDetails.push(y as ItemDetails);
-    //       console.log('testdata is  ' + this.itemDetails);
-    //     }
-    //     );
-    //   }
-    // );
+    const element = <HTMLInputElement> document.getElementById('btnAdmin');
+    element.disabled = true;
+    this.AdminText = 'No Admin Rights';
 
     // Data From Mongo DB
     this.getItemDetails();
+
+    // Validate data
+    this.handleAdminRights();
   }
 
 }

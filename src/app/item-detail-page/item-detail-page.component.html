@@ -14,7 +14,7 @@
       <td> <img src="{{item.imageLocation}}" height="120" width="180"> </td>
     </tr>
     <tr *ngFor = "let item of selectedProduct">
-      <td> <input value="{{item.rating}}"> </td>
+      <td> <input value="{{item.rating}}" [(ngModel)]="userRating"> <button (click)="rateProduct()">Rate</button> </td>
     </tr>
     <tr>
       <td><input  [(ngModel)]="userComment" value="User Comment"><button (click)="addComment()">Add</button></td>

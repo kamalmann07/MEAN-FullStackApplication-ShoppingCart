@@ -59,9 +59,9 @@
       <th>Assign Admin Rights</th>
     </thead>
     <tr *ngFor = "let user of userList">
-      <td  style="overflow:scroll; width:50px;"> {{ user.username }} </td> 
-      <td> <button class="btnUpdate">Deactivate</button> </td>
-      <td> <button class="btnUpdate">Assign</button> </td>
+      <td  style="overflow:scroll; width:50px;"> {{ user.userName }} </td> 
+      <td> <button class="btnUpdate" (click)="deactivateAccount(user)">Deactivate</button> </td>
+      <td> <button class="btnUpdate" (click)="assignAdminRights(user)">Assign</button> </td>
  </tr>
   </table>
 </div>
