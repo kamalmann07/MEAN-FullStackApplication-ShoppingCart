@@ -22,13 +22,13 @@ export class UserAuthenticatedComponent implements OnInit {
   selectedProduct: any;
   AdminText: String = '';
   userDetails: any;
+  tax: Number = 0.10;
 
   // get item details from firebase
   constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient, private router: Router) {
     // get logged user
     this.user = authService.getCurrentUser();
     this.title = this.user;
-    // (<HTMLInputElement> document.getElementById('btnAdmin')).disabled = true;
    }
 
   //  Route to Item Details
@@ -45,12 +45,12 @@ export class UserAuthenticatedComponent implements OnInit {
 
   // Add Data into Cart
   addToCart(item) {
-    const subTotal: number = item.price * 1.13 * this.qtyToPurchase;
+    const subTotal: number = item.price * parseFloat(this.tax.toString()) * this.qtyToPurchase;
     if (this.qtyToPurchase <= item.inventory) {
     this.rows.push({ name: item.name.toString(), price: item.price * this.qtyToPurchase,
       qty: this.qtyToPurchase, tax: subTotal, inventory: item.inventory, itemSold: item.itemsSold});
     } else {
-      console.log('Invalid Quantity Selected');
+      window.alert('Please select valid inventory');
     }
 
     // Add Html to Shopping Cart
@@ -58,15 +58,15 @@ export class UserAuthenticatedComponent implements OnInit {
     const row = table.insertRow(table.rows.length);
   }
 
-  // Increment Item Number
+  // Increment Item Number in Cart
   increment(selected) {
 
     if (selected.inventory >= selected.qty + 1) {
       selected.price = (selected.price / selected.qty) * (selected.qty + 1);
-      selected.tax = selected.price * .13;
+      selected.tax = selected.price * parseFloat(this.tax.toString());
       selected.qty = selected.qty + 1;
     } else {
-      console.log('Invalid Quantity Selected');
+      window.alert('Insufficient inventory');
     }
   }
 
@@ -83,6 +83,8 @@ export class UserAuthenticatedComponent implements OnInit {
           if (i = table.rows.length - 1) {
             this.clearCart();
             this.getItemDetails();
+            window.alert('Congratulations. Your order for item ' +
+            table.rows[i].cells[0].innerHTML.toString() + ' is successfully placed!');
           }
         },
         err => {
@@ -103,13 +105,13 @@ export class UserAuthenticatedComponent implements OnInit {
     this.itemDetails.sort((a, b) => (a as any).inventory - (b as any).inventory).reverse();
    }
 
-  // Decrement Item Count
+  // Decrement Item Count in Cart
   removeItem(selected) {
     if (selected.qty === 1) {
-      console.log('Cannot increment value from cart');
+      window.alert('Cannot decrement from 1 quantity');
     } else {
       selected.price = (selected.price / selected.qty) * (selected.qty - 1);
-      selected.tax = selected.price * .13;
+      selected.tax = selected.price * parseFloat(this.tax.toString());
       selected.qty = selected.qty - 1;
     }
   }
@@ -133,11 +135,21 @@ export class UserAuthenticatedComponent implements OnInit {
         if (this.userDetails[i].userName === this.user && this.userDetails[i].isAdmin === 'N') {
           const element = <HTMLInputElement> document.getElementById('btnAdmin');
           element.disabled = false;
-          console.log('User is admin');
           this.AdminText = 'Admin';
         }
       }
     });
+  }
+
+  // Delete Items from cart
+  deleteItemFromCart(item) {
+    console.log(item);
+
+    const filtered = this.rows.filter(function(list) {
+      return list.name !== item.name;
+    });
+    this.rows = filtered;
+    console.log(this.rows);
   }
 
   ngOnInit() {

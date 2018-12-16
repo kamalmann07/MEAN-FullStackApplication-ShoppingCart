@@ -40,6 +40,7 @@
       <th>Remove</th>
       <th style="display:none;">inventory</th>
       <th style="display:none;">Items Sold</th>
+      <th>Delete</th>
     </thead>
     <tr *ngFor = "let selected of rows">
       <td>{{selected.name}}</td>
@@ -50,6 +51,7 @@
       <td> <button class="btnToEditCart" (click)="removeItem(selected)">-</button> </td>
       <td style="display:none;">{{selected.inventory}}</td>
       <td style="display:none;">{{selected.itemSold}}</td>
+      <td> <button class="btnToEditCart" (click)="deleteItemFromCart(selected)">Delete</button> </td>
     </tr>
   </table>
   <div id="orderDetails"  align="right">
