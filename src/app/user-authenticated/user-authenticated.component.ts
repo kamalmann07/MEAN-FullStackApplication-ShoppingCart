@@ -47,6 +47,9 @@ export class UserAuthenticatedComponent implements OnInit {
 
   // Add Data into Cart
   addToCart(item) {
+    if ( !this.pds.validateInputNumber(this.qtyToPurchase) ) {
+      window.alert('Please select a number');
+    } else {
     const subTotal: number = item.price * parseFloat(this.tax.toString()) * this.qtyToPurchase;
     if (this.qtyToPurchase <= item.inventory) {
     this.rows.push({ name: item.name.toString(), price: item.price * this.qtyToPurchase,
@@ -55,12 +58,14 @@ export class UserAuthenticatedComponent implements OnInit {
     } else {
       window.alert('Please select valid inventory');
     }
+  }
 
     // Add Html to Shopping Cart
     const table: HTMLTableElement = <HTMLTableElement> document.getElementById('shopingCart');
     const row = table.insertRow(table.rows.length);
   }
 
+  // Calculate Cart Details Before Buying
   checkDetails() {
     let str: String = '';
     for (let i = 0; i < this.rows.length; i++) {
@@ -77,11 +82,13 @@ export class UserAuthenticatedComponent implements OnInit {
       selected.price = (selected.price / selected.qty) * (selected.qty + 1);
       selected.tax = selected.price * parseFloat(this.tax.toString());
       selected.qty = selected.qty + 1;
+      this.calculateTotal();
     } else {
       window.alert('Insufficient inventory');
     }
   }
 
+  // Place Order
   buy() {
     const table: HTMLTableElement = <HTMLTableElement> document.getElementById('shopingCart');
     for ( let i = 0 ; i < table.rows.length; i++) {
@@ -106,6 +113,7 @@ export class UserAuthenticatedComponent implements OnInit {
 
   }
 
+  // Total Amount calculation
   calculateTotal() {
     this.subTotal = 0;
     for (let i = 0; i < this.rows.length; i++) {
@@ -113,6 +121,7 @@ export class UserAuthenticatedComponent implements OnInit {
     }
   }
 
+  // Clear cart
   clearCart() {
 
     while ( this.rows.length > 0) {
@@ -120,8 +129,9 @@ export class UserAuthenticatedComponent implements OnInit {
     }
   }
 
+  // Sort Data
   sortData() {
-    this.itemDetails.sort((a, b) => (a as any).inventory - (b as any).inventory).reverse();
+    this.itemDetails.sort((a, b) => (a as any).itemsSold - (b as any).itemsSold).reverse();
    }
 
   // Decrement Item Count in Cart
@@ -132,9 +142,11 @@ export class UserAuthenticatedComponent implements OnInit {
       selected.price = (selected.price / selected.qty) * (selected.qty - 1);
       selected.tax = selected.price * parseFloat(this.tax.toString());
       selected.qty = selected.qty - 1;
+      this.calculateTotal();
     }
   }
 
+  // Item Details
   getItemDetails() {
     this.http.get('Items').subscribe(items => {
       this.itemDetails = items;
@@ -168,7 +180,8 @@ export class UserAuthenticatedComponent implements OnInit {
       return list.name !== item.name;
     });
     this.rows = filtered;
-    console.log(this.rows);
+    // console.log(this.rows);
+    this.calculateTotal();
   }
 
   ngOnInit() {

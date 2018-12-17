@@ -24,7 +24,7 @@ export class DefaultPageComponent implements OnInit {
    }
 
    sortData() {
-    this.itemDetails.sort((a, b) => (a as any).inventory - (b as any).inventory).reverse();
+    this.itemDetails.sort((a, b) => (a as any).itemsSold - (b as any).itemsSold).reverse();
    }
 
    getWishlistDetails() {
@@ -36,11 +36,6 @@ export class DefaultPageComponent implements OnInit {
       this.wishlist = filtered;
       this.wishlist.sort((a, b) => (a as any).user - (b as any).user).reverse();
     });
-  }
-
-  validateEmail(email) {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
   }
 
   ngOnInit() {

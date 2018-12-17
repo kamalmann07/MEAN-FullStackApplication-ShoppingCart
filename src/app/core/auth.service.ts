@@ -89,7 +89,6 @@ export class AuthService {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
-  // if (validateEmail(email)) {
 
   getCurrentUser(): any {
     const userName = firebase.auth().currentUser;

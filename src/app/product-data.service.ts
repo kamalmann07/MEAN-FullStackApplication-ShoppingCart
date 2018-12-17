@@ -13,6 +13,16 @@ export class ProductDataService {
   constructor(private db: AngularFireDatabase, private http: HttpClient) {
    }
 
+   validateInputs(str) {
+      const reg = /<(.|\n)*?>/g;
+      return reg.test(str);
+   }
+
+   validateInputNumber(str) {
+    const reg = /[0-9]|\./;
+    return reg.test(str);
+ }
+
    getItemsData(): any {
     this.itemDetails = this.db.list('itemDetails');
     return this.itemDetails;
@@ -24,7 +34,7 @@ export class ProductDataService {
    }
 
    getItemDetails(): any {
-    this.http.get('http://localhost:8080/Items').subscribe(items => {
+    this.http.get('/Items').subscribe(items => {
       this.itemList = items;
       return this.itemList;
   });

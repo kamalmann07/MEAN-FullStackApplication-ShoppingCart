@@ -15,7 +15,8 @@
   </div>
   <div>
   <button type="submit" class="btn-default" (click)="loginWithEmail(loginForm.value)">Login</button>
-  <button type="submit" class="btn-default" routerLink = "/defaultPage">Cancel</button>
+  <!-- <button type="submit" class="btn-default" routerLink = "/defaultPage">Cancel</button> -->
+  <button type="submit" class="btn-default" (click)="signUp(loginForm.value)">Signup</button>
 </div>
 <div>
   <label>Not registerd?...</label>
