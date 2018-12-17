@@ -71,15 +71,16 @@ export class AuthenicateUserComponent implements OnInit {
     if (this.authService.validateEmail(registerForm.email)) {
       this.authService.doRegister(registerForm)
       .then(res => {
+        // this.successMessage = res.message;
         console.log(res);
         this.errorMessage = '';
         this.successMessage = 'Your account has been created and verification email has been sent.';
-        window.alert('Your account has been created and verification email has been sent.');
       }, err => {
         console.log(err);
         this.errorMessage = err.message;
         this.successMessage = '';
       });
+      // window.alert('Your account has been created and verification email has been sent.');
     } else {
       window.alert('Please enter a valid email!');
     }

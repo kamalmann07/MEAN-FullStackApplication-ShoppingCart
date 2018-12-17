@@ -13,11 +13,13 @@ export class ProductDataService {
   constructor(private db: AngularFireDatabase, private http: HttpClient) {
    }
 
+  //  Validate Input
    validateInputs(str) {
       const reg = /<(.|\n)*?>/g;
       return reg.test(str);
    }
 
+  //  Validate number
    validateInputNumber(str) {
     const reg = /[0-9]|\./;
     return reg.test(str);

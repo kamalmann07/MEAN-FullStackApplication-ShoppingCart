@@ -82,6 +82,9 @@ export class ItemDetailPageComponent implements OnInit {
 
   // Populate wishlist
   wishlistItem(item) {
+    if (this.pds.validateInputs(this.wishlistVisibility)) {
+      window.alert('Please input valid data format');
+    } else {
     this.http.post('addWishlistItems', {name: item.name, visibility: this.wishlistVisibility,
     user: this.userName, group: 'Default' }).subscribe(
       res => {
@@ -92,6 +95,7 @@ export class ItemDetailPageComponent implements OnInit {
         console.log('Error occured');
       }
     );
+    }
   }
 
   // Remove an item from wishlist
