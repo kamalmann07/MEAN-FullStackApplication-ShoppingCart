@@ -127,6 +127,7 @@ export class UserAuthenticatedComponent implements OnInit {
     while ( this.rows.length > 0) {
       this.rows.splice( 0, 1 );
     }
+    this.subTotal = 0;
   }
 
   // Sort Data
