@@ -54,7 +54,7 @@ app.get('/getUserComments', function (req, res) {
     });
   })
 
-  //Get User Comments from MongoDB
+  //Get User details from MongoDB
 app.get('/getUserDetails', function (req, res) {
     var UserComments = userDetails.find(function (err, details) {
         if (err) {
@@ -66,18 +66,17 @@ app.get('/getUserDetails', function (req, res) {
   })
 
 
-    //Get User Comments from MongoDB
+    //Get wish list from MongoDB
 app.get('/getWishlistDetails', function (req, res) {
     var UserComments = wishlistDetails.find(function (err, details) {
         if (err) {
             res.send(err);
         }
         res.send(details);
-      //   console.log(itemDetails);
     });
   })
 
-//Function to insert rows
+//Function to insert items
 app.post('/add', function (req, res) {
    var addImage = new ItemDetails();
    addImage.name = req.body.name;
@@ -96,7 +95,7 @@ app.post('/add', function (req, res) {
 });
 
 
-//Function to insert rows
+//Function to insert user comments
 app.post('/addUserComment', function (req, res) {
     var addComment = new userComments();
     addComment.name = req.body.name;
@@ -111,7 +110,7 @@ app.post('/addUserComment', function (req, res) {
     })
  });
 
- //Function to insert rows
+ //Function to insert data for wishlist
 app.post('/addWishlistItems', function (req, res) {
     var addWishlist = new wishlistDetails();
     addWishlist.name = req.body.name;
@@ -127,7 +126,7 @@ app.post('/addWishlistItems', function (req, res) {
     })
  });
 
- //Function to insert rows
+ //Function to user details after signup
 app.post('/addUserDetails', function (req, res) {
     var addUserDetails = new userDetails();
     addUserDetails.userName = req.body.userName;
@@ -197,7 +196,7 @@ app.put('/order', function (req, res) {
     })
   });
 
-  //delete rows
+  //delete items
 app.delete('/delete', function (req, res) {
     var item = req.body.name;
     var c = ItemDetails.deleteOne({ 'name': item }, function (err, c) {
@@ -209,7 +208,7 @@ app.delete('/delete', function (req, res) {
   });
 
 
-  //delete rows
+  //delete wishlist records
 app.delete('/deleteFromWishlist', function (req, res) {
     var item = req.body.name;
     var user = req.body.user;
@@ -219,7 +218,6 @@ app.delete('/deleteFromWishlist', function (req, res) {
         }
         res.send({ message: item + ' Deleted from wishlist of user ' + user })
     })
-    // console.log('Calling Function for ' + item + ' - ' + user);
   });
 
 app.listen(8080); // start server
