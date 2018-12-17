@@ -28,7 +28,7 @@ export class ItemDetailPageComponent implements OnInit {
 
   addComment() {
     const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
-    this.http.post('http://localhost:8080/addUserComment', {name: itemName, comment: this.userComment, user: this.userName }).subscribe(
+    this.http.post('addUserComment', {name: itemName, comment: this.userComment, user: this.userName }).subscribe(
       res => {
         console.log(res);
         this.getUserComments();
@@ -43,7 +43,7 @@ export class ItemDetailPageComponent implements OnInit {
   rateProduct() {
     const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
     // console.log('Rating updated is ' , this.userRating);
-    this.http.put('http://localhost:8080/updateRating', {name: itemName, rating: this.userRating}).subscribe(
+    this.http.put('updateRating', {name: itemName, rating: this.userRating}).subscribe(
         res => {
           console.log(res);
         },
@@ -56,7 +56,7 @@ export class ItemDetailPageComponent implements OnInit {
   // Get User Comments
   getUserComments() {
     const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
-    this.http.get('http://localhost:8080/getUserComments').subscribe(comment => {
+    this.http.get('getUserComments').subscribe(comment => {
       this.comments = comment;
       const filtered = this.comments.filter(function(item) {
         return item.name === itemName;
@@ -68,7 +68,7 @@ export class ItemDetailPageComponent implements OnInit {
   // Populate wishlist
   wishlistItem(item) {
     // this.wishlist.push({name: item.name, visibility: '', user: this.userName, group: 'Test'});
-    this.http.post('http://localhost:8080/addWishlistItems', {name: item.name, visibility: this.wishlistVisibility,
+    this.http.post('addWishlistItems', {name: item.name, visibility: this.wishlistVisibility,
     user: this.userName, group: 'Default' }).subscribe(
       res => {
         console.log(res);
@@ -80,28 +80,28 @@ export class ItemDetailPageComponent implements OnInit {
     );
   }
 
-  removeFromWishList(item) {
-    this.http.request('delete', 'http://localhost:8080/deleteFromWishlist', {body: {name: item.name,
-    user: this.userName} }).subscribe();
-    // this.getWishlistDetails();
+  removeFromWishList(itm) {
+    const username = this.auth.getCurrentUser();
+    this.http.request('delete', 'deleteFromWishlist', {body: {name: itm.name,
+    user: username} }).subscribe();
+    this.getWishlistDetails();
+    window.alert('Item Removed from wishlist');
   }
 
   getWishlistDetails() {
     const username = this.auth.getCurrentUser();
-    console.log(username + ' is');
-    this.http.get('http://localhost:8080/getWishlistDetails').subscribe(wish => {
+    this.http.get('getWishlistDetails').subscribe(wish => {
       this.wishlist = wish;
       const filtered = this.wishlist.filter(function(item) {
         return item.user === username;
       });
       this.wishlist = filtered;
-      // console.log(this.wishlist);
     });
   }
 
   ngOnInit() {
     const itemName = this.router.parseUrl(this.router.url).queryParamMap.get('name');
-    this.http.get('http://localhost:8080/Items').subscribe(items => {
+    this.http.get('Items').subscribe(items => {
       this.selectedProduct = items;
       const filtered = this.selectedProduct.filter(function(item) {
         return item.name === itemName;
@@ -112,6 +112,7 @@ export class ItemDetailPageComponent implements OnInit {
 
     this.getUserComments();
     this.getWishlistDetails();
+    // this.removeFromWishList();
   }
 
 }

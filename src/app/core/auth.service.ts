@@ -48,20 +48,6 @@ export class AuthService {
         const userName = firebase.auth().currentUser;
 
 
-        // const x = this.db.list('Admin');
-        // x.valueChanges().subscribe(
-        //   admin => {
-        //     this.admins = JSON.stringify(admin);
-        //     console.log(this.admins);
-        //   });
-
-
-        //   for (let i = 0; i < JSON.parse(this.admins).length; i++) {
-        //     if (JSON.parse(this.admins)[i].username === userName) {
-        //       console.log('Admin Found ' + JSON.parse(this.admins)[i].username);
-        //     }
-        //   }
-
         if (userName.emailVerified) {
             this.router.navigate(['/authenticatedUser']);
             return Promise.resolve({verMail : 'Authenticated'});
@@ -73,7 +59,6 @@ export class AuthService {
       .catch(error => {
         console.log('Invalid Credientials. Please try again.' + error);
       });
-    // });
   }
 
   signInAsAdmin(loginForm) {
@@ -90,7 +75,7 @@ export class AuthService {
   }
 
   insertUserDetails(username) {
-    this.http.post('http://localhost:8080/addUserDetails', {userName: username, isAdmin: 'N', isActive: 'Y' }).subscribe(
+    this.http.post('addUserDetails', {userName: username, isAdmin: 'N', isActive: 'Y' }).subscribe(
       res => {
         console.log(res);
       },
@@ -99,6 +84,12 @@ export class AuthService {
       }
     );
   }
+
+  validateEmail(email) {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+  // if (validateEmail(email)) {
 
   getCurrentUser(): any {
     const userName = firebase.auth().currentUser;

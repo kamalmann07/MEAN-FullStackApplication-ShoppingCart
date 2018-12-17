@@ -219,6 +219,7 @@ app.delete('/deleteFromWishlist', function (req, res) {
         }
         res.send({ message: item + ' Deleted from wishlist of user ' + user })
     })
+    console.log('Calling Function for ' + item + ' - ' + user);
   });
 
 app.listen(8080); // start server

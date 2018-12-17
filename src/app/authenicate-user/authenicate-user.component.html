@@ -19,11 +19,11 @@
 </div>
 <div>
   <label>Not registerd?...</label>
-  <button type="submit" class="btn-default" routerLink = "/signup">Signup</button>
+  <button type="submit" class="btn-default" (click)="signUp(loginForm.value)">Signup</button>
 </div>
 <!-- <div>
     <label>Login as Admin</label>
-    <button type="submit" class="btn-default"  (click)="loginAsAdmin(loginForm.value)">Admin</button>
+    <button type="submit" class="btn-default"  (click)="loginAsAdmin(loginForm.value)">Admin</button>routerLink = "/signup"
   </div> -->
 </form>
 </div>

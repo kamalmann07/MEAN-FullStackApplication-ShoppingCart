@@ -71,5 +71,5 @@ table {
   .lower {
     bottom: 0;
     height: 85%;   
-    /* overflow:scroll; */
+    overflow:scroll;
   }

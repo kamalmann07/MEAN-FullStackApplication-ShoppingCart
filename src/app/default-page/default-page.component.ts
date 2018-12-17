@@ -28,7 +28,7 @@ export class DefaultPageComponent implements OnInit {
    }
 
    getWishlistDetails() {
-    this.http.get('http://localhost:8080/getWishlistDetails').subscribe(wish => {
+    this.http.get('getWishlistDetails').subscribe(wish => {
       this.wishlist = wish;
       const filtered = this.wishlist.filter(function(item) {
         return item.visibility === 'Public';
@@ -38,9 +38,14 @@ export class DefaultPageComponent implements OnInit {
     });
   }
 
+  validateEmail(email) {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
   ngOnInit() {
     // Get Data from mongo
-    this.http.get('http://localhost:8080/Items').subscribe(items => {
+    this.http.get('Items').subscribe(items => {
       this.itemDetails = items;
       const filtered = this.itemDetails.filter(function(item) {
         return item.inventory > 0;

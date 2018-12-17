@@ -55,8 +55,11 @@
     </tr>
   </table>
   <div id="orderDetails"  align="right">
+      <button class="btnToCart" (click)="checkDetails()">Check</button> 
     <button class="btnToCart" (click)="buy()">Buy</button> 
     <button class="btnToCart" (click)="clearCart()">Cancel</button> 
+    <label>Total</label>
+    <label>{{ subTotal }}</label>
   </div>
 <!-- </div> -->
   </div>

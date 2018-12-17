@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, FormGroup, FormControlName, FormControl } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService} from '../core/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -14,11 +15,12 @@ export class SignupComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, private router: Router) {
     this.registerForm = new FormGroup({ email: new FormControl(), password: new FormControl() });
    }
 
   tryRegister(registerForm) {
+    if (this.authService.validateEmail(registerForm.email)) {
     this.authService.doRegister(registerForm)
     .then(res => {
       console.log(res);
@@ -29,7 +31,9 @@ export class SignupComponent implements OnInit {
       this.errorMessage = err.message;
       this.successMessage = '';
     });
-    console.log(registerForm);
+  } else {
+    window.alert('Please enter a valid email!');
+  }
   }
 
   ngOnInit() {

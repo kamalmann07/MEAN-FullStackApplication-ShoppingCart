@@ -23,12 +23,14 @@ export class UserAuthenticatedComponent implements OnInit {
   AdminText: String = '';
   userDetails: any;
   tax: Number = 0.10;
+  subTotal: Number;
 
   // get item details from firebase
   constructor(private authService: AuthService, private pds: ProductDataService, private http: HttpClient, private router: Router) {
     // get logged user
     this.user = authService.getCurrentUser();
     this.title = this.user;
+    this.subTotal = 0;
    }
 
   //  Route to Item Details
@@ -49,6 +51,7 @@ export class UserAuthenticatedComponent implements OnInit {
     if (this.qtyToPurchase <= item.inventory) {
     this.rows.push({ name: item.name.toString(), price: item.price * this.qtyToPurchase,
       qty: this.qtyToPurchase, tax: subTotal, inventory: item.inventory, itemSold: item.itemsSold});
+      this.calculateTotal();
     } else {
       window.alert('Please select valid inventory');
     }
@@ -56,6 +59,15 @@ export class UserAuthenticatedComponent implements OnInit {
     // Add Html to Shopping Cart
     const table: HTMLTableElement = <HTMLTableElement> document.getElementById('shopingCart');
     const row = table.insertRow(table.rows.length);
+  }
+
+  checkDetails() {
+    let str: String = '';
+    for (let i = 0; i < this.rows.length; i++) {
+      str += '\t• ' + this.rows[i].name + '\n';
+    }
+    window.alert('Following are items to be purchased \n\n'
+    + str);
   }
 
   // Increment Item Number in Cart
@@ -76,21 +88,28 @@ export class UserAuthenticatedComponent implements OnInit {
       const updatedInv: number = parseInt(table.rows[i].cells[6].innerHTML.toString(), 10) - parseInt(table.rows[i].cells[2].innerHTML, 10);
       const updatedSoldCount: number = parseInt(table.rows[i].cells[7].innerHTML.toString(), 10) +
       parseInt(table.rows[i].cells[2].innerHTML, 10);
-      this.http.put('http://localhost:8080/order',
+      this.http.put('order',
       {name: table.rows[i].cells[0].innerHTML, inventory: updatedInv, itemsSold: updatedSoldCount }).subscribe(
         res => {
           console.log(res);
           if (i = table.rows.length - 1) {
             this.clearCart();
             this.getItemDetails();
-            window.alert('Congratulations. Your order for item ' +
-            table.rows[i].cells[0].innerHTML.toString() + ' is successfully placed!');
+            window.alert('Congratulations...Order Placed Successfully');
           }
         },
         err => {
           console.log('Error occured');
         }
       );
+    }
+
+  }
+
+  calculateTotal() {
+    this.subTotal = 0;
+    for (let i = 0; i < this.rows.length; i++) {
+      this.subTotal = this.rows[i].price + this.rows[i].tax + parseFloat(this.subTotal.toString());
     }
   }
 
@@ -117,7 +136,7 @@ export class UserAuthenticatedComponent implements OnInit {
   }
 
   getItemDetails() {
-    this.http.get('http://localhost:8080/Items').subscribe(items => {
+    this.http.get('Items').subscribe(items => {
       this.itemDetails = items;
       const filtered = this.itemDetails.filter(function(item) {
         return item.inventory > 0;
@@ -129,10 +148,10 @@ export class UserAuthenticatedComponent implements OnInit {
 
   // Handle admin button
   handleAdminRights() {
-    this.http.get('http://localhost:8080/getUserDetails').subscribe(items => {
+    this.http.get('getUserDetails').subscribe(items => {
       this.userDetails = items;
       for (let i = 0; i < this.userDetails.length; i++) {
-        if (this.userDetails[i].userName === this.user && this.userDetails[i].isAdmin === 'N') {
+        if (this.userDetails[i].userName === this.user && this.userDetails[i].isAdmin === 'Y') {
           const element = <HTMLInputElement> document.getElementById('btnAdmin');
           element.disabled = false;
           this.AdminText = 'Admin';

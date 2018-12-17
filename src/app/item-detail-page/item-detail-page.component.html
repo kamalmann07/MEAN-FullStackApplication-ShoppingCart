@@ -3,7 +3,7 @@
   <button id="btnLogin" routerLink = "/authenticatedUser">Go Back</button>
 </div>
 <div class="lower">
-  <table>
+  <table id="imageDetails">
     <thead>
       <th>Item Details</th>
     </thead>
@@ -27,10 +27,12 @@
       <td> {{comment.user}} </td>
     </tr>
   </table>
-</div>
-<div  align="right"  style="vertical-align: top;">
-  <h3>Wishlist</h3>
-  <table>
+<!-- </div>
+<div  align="right"> -->
+  <br>
+  <h3 align="right">Wishlist</h3>
+  <br>
+  <table id="wishlistDetails" align="right">
     <thead>
       <th>Item</th>
       <th>Visibility</th>
@@ -39,7 +41,7 @@
     <tr *ngFor = "let itm of wishlist">
         <td> {{itm.name}} </td>
         <td> {{itm.visibility}} </td>
-        <td><button (click)="removeFromWishList(itm)">Delete</button></td>
+        <td><button  (click)="removeFromWishList(itm)">Delete</button></td>
       </tr>
   </table>
 </div>
